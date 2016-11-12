@@ -1,0 +1,24 @@
+{
+  "name": "amos-overt",
+  "version": "1.0.0",
+  "description": "the little demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilex0208/amos-overt.git"
+  },
+  "keywords": [
+    "ilex",
+    "over",
+    "t"
+  ],
+  "author": "ilex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ilex0208/amos-overt/issues"
+  },
+  "homepage": "https://github.com/ilex0208/amos-overt#readme"
+}
