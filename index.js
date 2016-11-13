@@ -1,2 +1,2 @@
-var JTopo = require('./jt/jt-0.4.8-min.js');
+var JTopo = require('./lib/jtl.js');// 0.4.8
 module.exports = JTopo;
