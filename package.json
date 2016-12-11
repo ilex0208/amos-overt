@@ -4,7 +4,6 @@
   "description": "the little demo",
   "main": "index.js",
   "scripts": {
-    // "test": "echo \"Error: no test specified\" && exit 1",
     "test": "lab --verbose --assert code --threshold 100",
     "build": "webpack -p"
   },
