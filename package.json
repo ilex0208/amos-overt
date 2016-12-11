@@ -4,7 +4,8 @@
   "description": "the little demo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    // "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "lab --verbose --assert code --threshold 100",
     "build": "webpack -p"
   },
   "repository": {
@@ -32,6 +33,9 @@
     "babel-register": "^6.9.0",
     "babel-runtime": "^6.5.0",
     "babel-polyfill": "^6.9.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "code": "^1.5.0",
+    "lab": "^5.18.1",
+    "tape": "^2.13.4"
   }
 }

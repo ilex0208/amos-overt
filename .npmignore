@@ -2,4 +2,4 @@ jt/
 src/
 node_modules/
 *.config.*
-package.*
+tests/
