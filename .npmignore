@@ -1,6 +1,9 @@
-jt/
+dev/
+min/
 src/
+dist/
 node_modules/
 *.config.*
 tests/
 *.build.*
+gulpfile.js

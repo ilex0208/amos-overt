@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/alarm/_alarm.js"],"names":["Alarm","prototype","Element","module","exports"],"mappings":";;AAAA,SAASA,KAAT,GAAiB,CAEhB;;AAEDA,MAAMC,SAAN,GAAkB,IAAIC,OAAJ,EAAlB,EAGAC,OAAOC,OAAP,GAAiBJ,KAHjB","file":"_alarm.js","sourcesContent":["function Alarm() {\n\n}\n\nAlarm.prototype = new Element,\n\n\nmodule.exports = Alarm;\n"]}

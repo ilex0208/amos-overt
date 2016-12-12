@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/alarm/index.js"],"names":["Alarm","require","module","exports"],"mappings":";;AAAA,IAAMA,QAAQC,QAAQ,UAAR,CAAd;;AAEAC,OAAOC,OAAP,GAAiBH,KAAjB","file":"index.js","sourcesContent":["const Alarm = require('./_alarm');\n\nmodule.exports = Alarm;\n"]}
