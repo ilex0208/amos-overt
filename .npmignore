@@ -1,4 +1,6 @@
 jt/
 src/
 node_modules/
-dist/
+*.config.*
+tests/
+*.build.*
