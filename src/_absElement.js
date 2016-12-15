@@ -5,12 +5,25 @@
  * @description 2016-11-04 10:56:12
  */
 //////////////////////////////
+let UUID = {
+  _id: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"],
+  id: function() {
+    let result = [];
+    for (let i = 0; i < 32; i++) {
+      result[i] = this._id[Math.floor(Math.random() * 16)];
+    }
+    return result[12] = "4",
+      result[16] = this._id[result[16] & 3 | 8],
+      result.join("");
+  }
+};
 function Element() {
   this.initialize = function() {
     this.elementType = 'element',
       this.serializedProperties = ['elementType'],
       this.propertiesStack = [],
-      this._id = '' + (new Date).getTime();
+      // this._id = '' + (new Date).getTime();
+      this._id = UUID.id();
   },
     this.distroy = function() { },
     this.removeHandler = function() { },

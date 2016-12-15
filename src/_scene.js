@@ -141,6 +141,10 @@ function Scene(stage) {
     }
     return nodeArray;
   },
+  /**
+   * 绘制所有的child
+   * @param {any} ctx 画布对象
+   */
   this.paintChilds = function(ctx) {
     for (let i = 0; i < this.zIndexArray.length; i++) {
       let zIarr = this.zIndexArray[i], value = this.zIndexMap[zIarr];

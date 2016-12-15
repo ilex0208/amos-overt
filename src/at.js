@@ -21,6 +21,7 @@ let _util = require('./_util');
 let find = require('./_extends');
 let _tobj = require('./_tobj');
 let Constants = require('./constants/index');
+let _t = require('./_tree');
 
 Stage.prototype.find = find,
 Scene.prototype.find = find;
@@ -133,5 +134,6 @@ module.exports = {
   Stage: Stage,
   Tobj:_tobj,
   createStageFromJson: createStageFromJson,
-  Constants: Constants
+  Constants: Constants,
+  Tree: _t
 };

@@ -564,11 +564,11 @@ function Stage($canvas) {
   setTimeout(function() {
     _self.paint();
   },
-    1e3),
+    1000),
   setTimeout(function() {
     _self.paint();
   },
-    3e3);
+    3000);
 }
 
 Stage.prototype = {
