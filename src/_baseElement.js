@@ -12,6 +12,8 @@ const SceneMode = Tobj.SceneMode;
 const Constants = require('./constants/index');
 const _default = Constants.DEFAULT;
 
+
+let iconCache = {};
 /**
  * DisplayElement 对象
  */
@@ -159,6 +161,51 @@ function DisplayElement() {
         y: bound.bottom
       }),
       location;
+    },
+  /**
+   * node tree节点设置icon
+   * @param {any} img 可以是image路径,也可以是Image对象
+   * @param {boolean} isSelfSize 是否是image自身大小
+   */
+    this.setIcon = function(img, isSelfSize) {
+      if (null == img) {throw new Error('Node.setIcon(): 参数Image对象为空!');}
+      let _iconSelf = this;
+      if ('string' == typeof img) {
+        let image = iconCache[img];
+        null == image ? (
+          image = new Image, image.src = img, image.onload = function() {
+            iconCache[img] = image,
+            true === isSelfSize && _iconSelf.setSize(image.width, image.height),
+            _iconSelf.icon = image;
+          }
+        ) : (
+          isSelfSize && this.setSize(image.width, image.height),
+          _iconSelf.icon = image
+        );
+      } else {
+        this.image = img,
+          true === isSelfSize && this.setSize(img.width, img.height);
+      }
+    },
+    this.getIcon = function(elementType) {
+      if (null == elementType || '' === elementType) {}
+      let _iconSelf = this;
+      if ('string' == typeof img) {
+        let image = iconCache[img];
+        null == image ? (
+          image = new Image, image.src = img, image.onload = function() {
+            iconCache[img] = image,
+            true === isSelfSize && _iconSelf.setSize(image.width, image.height),
+            _iconSelf.icon = image;
+          }
+        ) : (
+          isSelfSize && this.setSize(image.width, image.height),
+          _iconSelf.icon = image
+        );
+      } else {
+        this.image = img,
+          true === isSelfSize && this.setSize(img.width, img.height);
+      }
     };
 }
 

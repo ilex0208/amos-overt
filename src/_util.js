@@ -6,7 +6,8 @@
 //////////////////////////////
 let targetCanvas = document.createElement('canvas'),
   graphics = targetCanvas.getContext('2d'),
-  alarmImageCache = {};
+  alarmImageCache = {},
+  alarmIconCache = {};
 const alarmDefaulOps = {
   rgbR: 255,
   rgbA: 255
@@ -380,7 +381,33 @@ function generateImageAlarm(img, alarmColor) {
       return alarmImg;
     }
   } catch (ex) {
-    console.log('genImageAlarm error|@', ex);
+    console.log('generateImageAlarm error|@', ex);
+  }
+  return null;
+}
+
+/**
+ * 构建Icon 告警image
+ *
+ * @param {any} image
+ * @param {number} rgb
+ * @returns
+ */
+function generateIconAlarm(img, alarmColor) {
+  let imgSrc = img.src + alarmColor;
+  try {
+    if (alarmIconCache[imgSrc]) {
+      return alarmIconCache[imgSrc];
+    }
+    else
+    {
+      let alarmImg = new Image;
+      alarmImg.src = generateColor(graphics, img, alarmColor);
+      alarmIconCache[imgSrc] = alarmImg;
+      return alarmImg;
+    }
+  } catch (ex) {
+    console.log('generateIconAlarm error|@', ex);
   }
   return null;
 }
@@ -804,6 +831,7 @@ module.exports = {
   genImageAlarm: genImageAlarm,
   genImageAlarmByOpts: genImageAlarmByOpts,
   generateImageAlarm: generateImageAlarm,
+  generateIconAlarm: generateIconAlarm,
   getOffsetPosition: getOffsetPosition,
   lineF: lineF,
   intersection: intersection,

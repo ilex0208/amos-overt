@@ -26,7 +26,7 @@ var defaultOpt = {
 function Render(context, canvasW, canvasH, bgOptions) {
   var self = this;
   var _opts = bgOptions || defaultOpt.bgOptions;
-  this.draw = function (callback) {
+  this.draw = function(callback) {
     _clearCanvas(); //清除图像
     _drawGlobal(_opts); //绘制背景
   };
@@ -34,12 +34,12 @@ function Render(context, canvasW, canvasH, bgOptions) {
   /**
    *	初始加载图片(私有方法)
    */
-  this.itemLoaded = function (bgOptions, callback) {
+  this.itemLoaded = function(bgOptions, callback) {
     if (bgOptions.backgroundImage) {
       try {
         //appState = STATE_IMAGE_LOAD;
         self.bgImg = new Image();
-        self.bgImg.addEventListener('load', function () {
+        self.bgImg.addEventListener('load', function() {
           //初始背景图片渐变
           self.bgPattern = context.createPattern(self.bgImg, 'repeat');
           callback();

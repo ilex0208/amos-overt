@@ -11,6 +11,8 @@ const _e = require('./_baseElement');
 const Util = require('./_util');
 // 获取可编辑element
 const EditableElement = _e.EditableElement;
+
+let imageCache = {};
 /**
  * 抽象node,基类
  *
@@ -163,9 +165,9 @@ function AbstractNode(nodeText) {
    */
     this.setImage = function(img, isSelfSize) {
       if (null == img) {throw new Error('Node.setImage(): 参数Image对象为空!');}
-      var _tempSelf = this;
+      let _tempSelf = this;
       if ('string' == typeof img) {
-        var image = imageCache[img];
+        let image = imageCache[img];
         null == image ? (
           image = new Image, image.src = img, image.onload = function() {
             imageCache[img] = image,
@@ -446,8 +448,6 @@ function AnimateNode() {
     _anode;
 }
 
-let imageCache = {};
-
 AbstractNode.prototype = new EditableElement,
   Node.prototype = new AbstractNode,
   Object.defineProperties(Node.prototype, {
@@ -458,8 +458,11 @@ AbstractNode.prototype = new EditableElement,
       set: function(ac) {
         this._alarmColor = ac;
         if (null != this.image) {
-          var alarmImg = Util.generateImageAlarm(this.image, ac);
+          let alarmImg = Util.generateImageAlarm(this.image, ac);
           alarmImg && (this.alarmImage = alarmImg);
+          // set alarm icon (for tree)
+          // let iconImg = Util.generateIconAlarm(this.icon, ac);
+          // iconImg && (this.alarmIcon = iconImg);
         }
       }
     }
