@@ -59,6 +59,9 @@ function Element() {
           len > index + 1 && (result += ',');
       }),
         result += '}';
+    },
+    this.getId = function(){
+      return this._id;
     };
 }
 

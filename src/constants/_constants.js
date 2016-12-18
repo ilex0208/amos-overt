@@ -6,18 +6,43 @@ const Constants = {
   ],
   NODE_WIDTH: 50,
   NODE_HEIGHT: 50,
-  ALARM:[
-    { color: '#FF0000', name: 'Critical', nickName: 'C', level: 1 },
-    { color: '#FFA000', name: 'Major', nickName: 'M', level: 2 },
-    { color: '#FFFF00', name: 'Minor', nickName: 'm', level: 3 },
-    { color: '#00FFFF', name: 'Warning', nickName: 'W', level: 4 },
-    { color: '#C800FF', name: 'Indeterminate', nickName: 'N', level: 5 },
-    { color: '#00FF00', name: 'Cleared', nickName: 'R', level: 6 }
-  ],
+  ALARM: [{
+    color: '#FF0000',
+    name: 'Critical',
+    nickName: 'C',
+    level: 1
+  }, {
+    color: '#FFA000',
+    name: 'Major',
+    nickName: 'M',
+    level: 2
+  }, {
+    color: '#FFFF00',
+    name: 'Minor',
+    nickName: 'm',
+    level: 3
+  }, {
+    color: '#00FFFF',
+    name: 'Warning',
+    nickName: 'W',
+    level: 4
+  }, {
+    color: '#C800FF',
+    name: 'Indeterminate',
+    nickName: 'N',
+    level: 5
+  }, {
+    color: '#00FF00',
+    name: 'Cleared',
+    nickName: 'R',
+    level: 6
+  }],
   SMALL: 25,
   MIDDLE: 35,
   LARGE: 50,
   DEFAULT: 32
 };
+
+
 
 module.exports = Constants;
