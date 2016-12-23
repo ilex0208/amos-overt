@@ -1,75 +1,91 @@
-const _third = require('./../core/_third')._third;
-const List = require('./../core/_list');
 
-let AlarmSeverity = function(a, b, c, d, e) {
-  this.value = a,
-  this.name = b,
-  this.nickName = c,
-  this.color = d,
-  this.displayName = e;
-};
-_third.ext('third.AlarmSeverity', Object, {
-  toString: function() {
+const List = require('./../core/_list');
+const Extends = require('./../core/_ext');
+
+/**
+ * 告警级别
+ *
+ * @param {any} value
+ * @param {any} name
+ * @param {any} nickName
+ * @param {any} color
+ * @param {any} displayName
+ */
+let AlarmSeverity = function(value, name, nickName, color, displayName) {
+  this.value = value,
+  this.name = name,
+  this.nickName = nickName,
+  this.color = color,
+  this.displayName = displayName;
+  // ext
+  this.toString = function() {
     return this.displayName ? this.displayName : this.name;
-  }
-}),
-function() {
-  var a = AlarmSeverity;
-  a.severities = new List,
-    a._vm = {},
-    a._nm = {},
-    a._cp = function(a, b) {
-      if (a && b) {
-        var c = a.value - b.value;
+  };
+};
+
+Extends('third.AlarmSeverity', Object, AlarmSeverity);
+//AlarmSeverity.prototype = new Object;
+AlarmSeverity.prototype.getClassName = function(){
+  return 'third.AlarmSeverity';
+};
+
+!function() {
+  var _alarmSeverity = AlarmSeverity;
+  _alarmSeverity.severities = new List,
+    _alarmSeverity._vm = {},
+    _alarmSeverity._nm = {},
+    _alarmSeverity._cp = function(alarmA, alarmB) {
+      if (alarmA && alarmB) {
+        var c = alarmA.value - alarmB.value;
         return c > 0 ? 1 : c < 0 ? -1 : 0;
       }
-      return a && !b ? 1 : !a && b ? -1 : 0;
+      return alarmA && !alarmB ? 1 : !alarmA && alarmB ? -1 : 0;
     },
-    a.forEach = function(b, c) {
-      a.severities.forEach(b, c);
+    _alarmSeverity.forEach = function(b, c) {
+      _alarmSeverity.severities.forEach(b, c);
     },
-    a.getSortFunction = function() {
-      return a._cp;
+    _alarmSeverity.getSortFunction = function() {
+      return _alarmSeverity._cp;
     },
-    a.setSortFunction = function(b) {
-      a._cp = b,
-        a.severities.sort(b);
+    _alarmSeverity.setSortFunction = function(b) {
+      _alarmSeverity._cp = b,
+        _alarmSeverity.severities.sort(b);
     },
-    a.add = function(b, c, d, e, f) {
-      var g = new a(b, c, d, e, f);
-      return a._vm[b] = g,
-        a._nm[c] = g,
-        a.severities.add(g),
-        a.severities.sort(a._cp),
+    _alarmSeverity.add = function(b, c, d, e, f) {
+      var g = new _alarmSeverity(b, c, d, e, f);
+      return _alarmSeverity._vm[b] = g,
+        _alarmSeverity._nm[c] = g,
+        _alarmSeverity.severities.add(g),
+        _alarmSeverity.severities.sort(_alarmSeverity._cp),
         g;
     },
-    a.remove = function(b) {
-      var c = a._nm[b];
-      return c && (delete a._nm[b], delete a._vm[c.value], a.severities.remove(c)),
+    _alarmSeverity.remove = function(b) {
+      var c = _alarmSeverity._nm[b];
+      return c && (delete _alarmSeverity._nm[b], delete _alarmSeverity._vm[c.value], _alarmSeverity.severities.remove(c)),
         c;
     },
-    a.CRITICAL = a.add(500, 'Critical', 'C', '#FF0000'),
-    a.MAJOR = a.add(400, 'Major', 'M', '#FFA000'),
-    a.MINOR = a.add(300, 'Minor', 'm', '#FFFF00'),
-    a.WARNING = a.add(200, 'Warning', 'W', '#00FFFF'),
-    a.INDETERMINATE = a.add(100, 'Indeterminate', 'N', '#C800FF'),
-    a.CLEARED = a.add(0, 'Cleared', 'R', '#00FF00'),
-    a.isClearedAlarmSeverity = function(a) {
-      return a ? a.value === 0 : !1;
+    _alarmSeverity.CRITICAL = _alarmSeverity.add(500, 'Critical', 'C', '#FF0000'),
+    _alarmSeverity.MAJOR = _alarmSeverity.add(400, 'Major', 'M', '#FFA000'),
+    _alarmSeverity.MINOR = _alarmSeverity.add(300, 'Minor', 'm', '#FFFF00'),
+    _alarmSeverity.WARNING = _alarmSeverity.add(200, 'Warning', 'W', '#00FFFF'),
+    _alarmSeverity.INDETERMINATE = _alarmSeverity.add(100, 'Indeterminate', 'N', '#C800FF'),
+    _alarmSeverity.CLEARED = _alarmSeverity.add(0, 'Cleared', 'R', '#00FF00'),
+    _alarmSeverity.isClearedAlarmSeverity = function(a) {
+      return a ? _alarmSeverity.value === 0 : !1;
     },
-    a.getByName = function(b) {
-      return a._nm[b];
+    _alarmSeverity.getByName = function(b) {
+      return _alarmSeverity._nm[b];
     },
-    a.getByValue = function(b) {
-      return a._vm[b];
+    _alarmSeverity.getByValue = function(b) {
+      return _alarmSeverity._vm[b];
     },
-    a.clear = function() {
-      a.severities.clear(),
-        a._vm = {},
-        a._nm = {};
+    _alarmSeverity.clear = function() {
+      _alarmSeverity.severities.clear(),
+        _alarmSeverity._vm = {},
+        _alarmSeverity._nm = {};
     },
-    a.compare = function(b, c) {
-      return a._cp(b, c);
+    _alarmSeverity.compare = function(b, c) {
+      return _alarmSeverity._cp(b, c);
     };
 } ();
 

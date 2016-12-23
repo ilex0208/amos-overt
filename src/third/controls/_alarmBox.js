@@ -1,30 +1,8 @@
-const _third = require('./../core/_third')._third;
-const List = require('./../core/_list');
-const DataBox = require('./_db').DataBox;
-const QuickFinder = require('./_quickFinder');
 
-let AlarmElementMapping = function(a, b) {
-  if (!b) {throw 'ElementBox can not be null';}
-  if (!a){ throw 'AlarmBox can not be null';}
-  this._elementBox = b,
-  this._alarmBox = a,
-  this._alarmsFinder = new QuickFinder(a, 'elementId');
-};
-_third.ext('third.AlarmElementMapping', Object, {
-  getCorrespondingAlarms: function(a) {
-    return this._alarmsFinder.find(a.getId());
-  },
-  getCorrespondingElements: function(a) {
-    var b = this._elementBox.getDataById(a.getElementId());
-    return new List(b);
-  },
-  dispose: function() {
-    this._alarmsFinder.dispose(),
-    delete this._elementBox,
-    delete this._alarmBox,
-    delete this._alarmsFinder;
-  }
-});
+const DataBox = require('./_db');
+
+const Extends = require('./../core/_ext');
+const AlarmElementMapping = require('./_AlarmElementMapping');
 
 let AlarmBox = function(a) {
   if (!a) {throw 'elementBox can not be null.';}
@@ -34,19 +12,18 @@ let AlarmBox = function(a) {
   this._elementBox.addDataBoxChangeListener(this.handleElementBoxChange, this, !0),
   this.addDataBoxChangeListener(this.handleAlarmBoxChange, this, !0),
   this.addDataPropertyChangeListener(this.handleAlarmPropertyChange, this, !0);
-};
-_third.ext('third.AlarmBox', DataBox, {
-  __accessor: ['removeAlarmWhenElementIsRemoved'],
-  _name: 'AlarmBox',
-  _removeAlarmWhenAlarmIsCleared: !1,
-  _removeAlarmWhenElementIsRemoved: !0,
-  getElementBox: function() {
+  // ext
+  this.__accessor = ['removeAlarmWhenElementIsRemoved'],
+  this._name = 'AlarmBox',
+  this._removeAlarmWhenAlarmIsCleared = !1,
+  this._removeAlarmWhenElementIsRemoved = !0,
+  this.getElementBox = function() {
     return this._elementBox;
   },
-  isRemoveAlarmWhenAlarmIsCleared: function() {
+  this.isRemoveAlarmWhenAlarmIsCleared = function() {
     return this._removeAlarmWhenAlarmIsCleared;
   },
-  setRemoveAlarmWhenAlarmIsCleared: function(a) {
+  this.setRemoveAlarmWhenAlarmIsCleared = function(a) {
     var b = this._removeAlarmWhenAlarmIsCleared;
     this._removeAlarmWhenAlarmIsCleared = a,
       this.firePropertyChange('removeAlarmWhenAlarmIsCleared', b, a),
@@ -54,10 +31,10 @@ _third.ext('third.AlarmBox', DataBox, {
         return a.isCleared();
       }).forEach(this.remove, this);
   },
-  getAlarmElementMapping: function() {
+  this.getAlarmElementMapping = function() {
     return this._alarmElementMapping;
   },
-  setAlarmElementMapping: function(a) {
+  this.setAlarmElementMapping = function(a) {
     if (!a) {throw 'alarmElementMapping can not be null';}
     if (this._alarmElementMapping === a) {return;}
     var b = this._alarmElementMapping;
@@ -66,18 +43,18 @@ _third.ext('third.AlarmBox', DataBox, {
       this.getDatas().forEach(this._increaseAlarmState, this),
       this.firePropertyChange('alarmElementMapping', b, a);
   },
-  handleElementBoxChange: function(a) {
+  this.handleElementBoxChange = function(a) {
     a.kind === 'add' ? this.handleElementAdded(a.data) : a.kind === 'remove' ? (this.handleElementRemoved(a.data), this._removeAlarmWhenElementIsRemoved && this.removeAlarmsByElement(a.data)) : a.kind === 'clear' && (a.datas.forEach(this.handleElementRemoved, this), this._removeAlarmWhenElementIsRemoved && this.clear());
   },
-  handleAlarmBoxChange: function(a) {
+  this.handleAlarmBoxChange = function(a) {
     a.kind === 'add' ? this._increaseAlarmState(a.data) : a.kind === 'remove' ? this._decreaseAlarmState(a.data) : a.kind === 'clear' && a.datas.forEach(this._decreaseAlarmState, this);
   },
-  handleAlarmPropertyChange: function(a) {
+  this.handleAlarmPropertyChange = function(a) {
     var b = a.source;
     b.isCleared() || (a.property === 'alarmSeverity' ? this.handleAlarmSeverityChange(b, a) : a.property === 'acked' && this.handleAckedChange(b, a)),
       a.property === 'cleared' && (b.isCleared() ? (this._decreaseAlarmState(b, !0), this._removeAlarmWhenAlarmIsCleared && this.remove(b)) : this._increaseAlarmState(b, !0));
   },
-  handleAckedChange: function(a, b) {
+  this.handleAckedChange = function(a, b) {
     if (!a.getAlarmSeverity()) {return;}
     var c = this.getCorrespondingElements(a);
     if (c) {for (var d = 0; d < c.size(); d++) {
@@ -86,7 +63,7 @@ _third.ext('third.AlarmBox', DataBox, {
         b.newValue ? e.getAlarmState().increaseAcknowledgedAlarm(a.getAlarmSeverity()) : e.getAlarmState().increaseNewAlarm(a.getAlarmSeverity());
     }}
   },
-  handleAlarmSeverityChange: function(a, b) {
+  this.handleAlarmSeverityChange = function(a, b) {
     var c = b.oldValue,
       d = b.newValue,
       e = this.getCorrespondingElements(a);
@@ -96,13 +73,13 @@ _third.ext('third.AlarmBox', DataBox, {
         d && (a.isAcked() ? g.getAlarmState().increaseAcknowledgedAlarm(d) : g.getAlarmState().increaseNewAlarm(d));
     }}
   },
-  getCorrespondingAlarms: function(a) {
+  this.getCorrespondingAlarms = function(a) {
     return this._alarmElementMapping.getCorrespondingAlarms(a);
   },
-  getCorrespondingElements: function(a) {
+  this.getCorrespondingElements = function(a) {
     return this._alarmElementMapping.getCorrespondingElements(a);
   },
-  handleElementAdded: function(a) {
+  this.handleElementAdded = function(a) {
     var b = this.getCorrespondingAlarms(a);
     if (b) {for (var c = 0; c < b.size(); c++) {
       var d = b.get(c);
@@ -111,7 +88,7 @@ _third.ext('third.AlarmBox', DataBox, {
       e && (d.isAcked() ? a.getAlarmState().increaseAcknowledgedAlarm(e) : a.getAlarmState().increaseNewAlarm(e));
     }}
   },
-  _increaseAlarmState: function(a, b) {
+  this._increaseAlarmState = function(a, b) {
     if (a.isCleared() && !b) {return;}
     var c = a.getAlarmSeverity();
     if (c) {
@@ -122,7 +99,7 @@ _third.ext('third.AlarmBox', DataBox, {
       }}
     }
   },
-  _decreaseAlarmState: function(a, b) {
+  this._decreaseAlarmState = function(a, b) {
     if (a.isCleared() && !b) {return;}
     var c = a.getAlarmSeverity();
     if (!c) {return;}
@@ -132,25 +109,28 @@ _third.ext('third.AlarmBox', DataBox, {
       a.isAcked() ? f.getAlarmState().decreaseAcknowledgedAlarm(c) : f.getAlarmState().decreaseNewAlarm(c);
     }}
   },
-  handleElementRemoved: function(a) {
+  this.handleElementRemoved = function(a) {
     var b = this.getCorrespondingAlarms(a);
     b && b.forEach(function(b) {
       !b.isCleared() && b.getAlarmSeverity() && (b.isAcked() ? a.getAlarmState().decreaseAcknowledgedAlarm(b.getAlarmSeverity()) : a.getAlarmState().decreaseNewAlarm(b.getAlarmSeverity()));
     });
   },
-  removeAlarmsByElement: function(a) {
+  this.removeAlarmsByElement = function(a) {
     var b = this.getCorrespondingAlarms(a);
     b && b.forEach(this.remove, this);
   },
-  add: function(a, b) {
+  this.add = function(a, b) {
     if (!a.IAlarm) {throw 'Only IAlarm can be added into AlarmBox';}
     if (this._removeAlarmWhenAlarmIsCleared && a.isCleared()) {return;}
     AlarmBox.superClass.add.apply(this, arguments);
-  }
-});
-
-// 单独导出
-module.exports = {
-  AlarmBox: AlarmBox,
-  AlarmElementMapping: AlarmElementMapping
+  };
 };
+
+Extends('third.AlarmBox', DataBox, AlarmBox);
+// AlarmBox.prototype = new DataBox;
+
+AlarmBox.prototype.getClassName = function(){
+  return 'third.AlarmBox';
+};
+
+module.exports = AlarmBox;

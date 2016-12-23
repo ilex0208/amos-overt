@@ -4,6 +4,8 @@ const Bd = _cons.Bd;
 const UserAgent = require('./_userAgent');
 const objKey2List = require('./_objKey2List');
 
+// load all modules
+
 let Styles = {
   _m: {},
   setStyle: function(a, b) {
@@ -231,26 +233,28 @@ let _third = {
     let c = a.prototype;
     for (let d in b) {c[d] = b[d];}
   },
-  ext: function( className, superClass, extProperty) {
+  ext: function( classNameStr, supClass, extProperty) {
     var result;
-    typeof className == 'string' && (result = className, className = _third.getClass(className));
-    if (superClass) {
+    typeof className == 'string' && (result = classNameStr, classNameStr = _third.getClass(classNameStr));
+    if (supClass) {
       var f = function() {};
-      f.prototype = superClass.prototype,
-        className.prototype = new f,
-        className.prototype.constructor = className,
-        className.superClass = superClass.prototype,
-        superClass.prototype.constructor == Object.prototype.constructor && (superClass.prototype.constructor = superClass);
+      f.prototype = supClass.prototype,
+        classNameStr.prototype = new f,
+        classNameStr.prototype.constructor = classNameStr,
+        classNameStr.supClass = supClass.prototype,
+        supClass.prototype.constructor == Object.prototype.constructor && (supClass.prototype.constructor = supClass);
     }
-    result && (className.prototype.getClassName = function() {
+    result && (classNameStr.prototype.getClassName = function() {
       return result;
     });
     if (extProperty) {
-      var g = className.prototype;
-      for (var h in extProperty){ extend.ext(h, g, extProperty);}
+      var __prototype = classNameStr.prototype;
+      for (var pro in extProperty){ extend.ext(pro, __prototype, extProperty);}
       var i = _third.es.length;
-      for (var k = 0; k < i; k++){ h = _third.es[k],
-        extProperty.hasOwnProperty(h) && !extProperty.propertyIsEnumerable(h) && (g[h] = extProperty[h]);}
+      for (var k = 0; k < i; k++){
+        pro = _third.es[k],
+        extProperty.hasOwnProperty(pro) && !extProperty.propertyIsEnumerable(pro) && (__prototype[pro] = extProperty[pro]);
+      }
     }
   },
   setViewBounds: function(a, b) {

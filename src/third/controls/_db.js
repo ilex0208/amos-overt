@@ -1,16 +1,16 @@
 const EventDispatcher = require('./_eventDispatcher');
-const SelectionModel = require('./_model').SelectionModel;
-const PropertyChangeDispatcher = require('./_model').PropertyChangeDispatcher;
+const SelectionModel = require('./_model');
+const PropertyChangeDispatcher = require('./_PropertyChangeDispatcher');
 const List = require('./../core/_list');
-const _third = require('./../core/_third')._third;
 
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
 
 const Tnode = require('./../eles/_tNode');
-const Tlink = require('./../eles/_tLink').Tlink;
-const Follower = require('./../eles/_tLink').Follower;
+const Tlink = require('./../eles/_tLink');
+const Follower = require('./../eles/_Follower');
 const box = require('./_box');
+const Extends = require('./../core/_ext');
 
 let DataBox = function(a) {
   DataBox.superClass.constructor.apply(this, arguments),
@@ -24,37 +24,36 @@ let DataBox = function(a) {
   this._dataPropertyChangeDispatcher = new EventDispatcher,
   this._hierarchyChangeDispatcher = new EventDispatcher,
   this._selectionModel = new SelectionModel(this);
-};
-_third.ext('third.DataBox', PropertyChangeDispatcher, {
-  IClient: !0,
-  __client: 1,
-  __new: 1,
-  _limit: -1,
-  _name: 'DataBox',
-  _icon: Bd.ICON_DATABOX,
-  __accessor: ['name', 'icon', 'toolTip'],
-  getSelectionModel: function() {
+  // ext
+  this.IClient = !0,
+  this.__client = 1,
+  this.__new = 1,
+  this._limit = -1,
+  this._name = 'DataBox',
+  this._icon = Bd.ICON_DATABOX,
+  this.__accessor = ['name', 'icon', 'toolTip'],
+  this.getSelectionModel = function() {
     return this._selectionModel;
   },
-  size: function() {
+  this.size = function() {
     return this._dataList.size();
   },
-  isEmpty: function() {
+  this.isEmpty = function() {
     return this._dataList.isEmpty();
   },
-  getLimit: function() {
+  this.getLimit = function() {
     return this._limit;
   },
-  setLimit: function(a) {
+  this.setLimit = function(a) {
     var b = this._limit;
     this._limit = a,
       this.firePropertyChange('limit', b, a),
       this._checkLimit();
   },
-  _checkLimit: function() {
+  this._checkLimit = function() {
     this._limit >= 0 && this.size() > this._limit && this.removeFirst(this.size() - this._limit);
   },
-  removeFirst: function(a) {
+  this.removeFirst = function(a) {
     arguments.length === 0 && (a = 1);
     while (a > 0 && this._dataList.size() > 0) {
       var b = this._dataList.get(0);
@@ -62,33 +61,33 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
         a--;
     }
   },
-  getSiblings: function(a) {
+  this.getSiblings = function(a) {
     if (!this.contains(a)){ throw a + ' dosen\'t belong to this dataBox';}
     var b = a.getParent();
     return b ? b.getChildren() : this._rootList;
   },
-  getRoots: function() {
+  this.getRoots = function() {
     return this._rootList;
   },
-  getSiblingIndex: function(a) {
+  this.getSiblingIndex = function(a) {
     return a.getParent() ? a.getParent().getChildren().indexOf(a) : this._rootList.indexOf(a);
   },
-  getDatas: function() {
+  this.getDatas = function() {
     return this._dataList;
   },
-  getDataAt: function(a) {
+  this.getDataAt = function(a) {
     return this._dataList.get(a);
   },
-  toDatas: function(a, b) {
+  this.toDatas = function(a, b) {
     return this._dataList.toList(a, b);
   },
-  forEach: function(a, b) {
+  this.forEach = function(a, b) {
     this._dataList.forEach(a, b);
   },
-  forEachReverse: function(a, b) {
+  this.forEachReverse = function(a, b) {
     this._dataList.forEachReverse(a, b);
   },
-  forEachByDepthFirst: function(a, b, c) {
+  this.forEachByDepthFirst = function(a, b, c) {
     if (b) {this._depthFirst(a, b, c);}
     else {
       var d = this._rootList.size();
@@ -98,7 +97,7 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       }
     }
   },
-  _depthFirst: function(a, b, c) {
+  this._depthFirst = function(a, b, c) {
     var d = b.getChildrenSize();
     for (var e = 0; e < d; e++) {
       var f = b.getChildAt(e);
@@ -108,7 +107,7 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       if (a.call(c, b) === !1){ return !1;}
     } else if (a(b) === !1) {return !1;}
   },
-  forEachByBreadthFirst: function(a, b, c) {
+  this.forEachByBreadthFirst = function(a, b, c) {
     var d = new List;
     b ? d.add(b) : this._rootList.forEach(d.add, d);
     while (d.size() > 0) {
@@ -119,7 +118,7 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       } else if (a(b) === !1) {return;}
     }
   },
-  add: function(a, b) {
+  this.add = function(a, b) {
     if (!a) {return;}
     arguments.length === 1 && (b = -1);
     var c = a.getId();
@@ -134,16 +133,16 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       }),
       this._checkLimit();
   },
-  remove: function(a) {
+  this.remove = function(a) {
     this.removeById(a.getId());
   },
-  removeSelection: function() {
+  this.removeSelection = function() {
     this._selectionModel.toSelection().forEach(function(a) {
       this.remove(a);
     },
       this);
   },
-  removeById: function(a) {
+  this.removeById = function(a) {
     var b = this.getDataById(a);
     if (!b) {return;}
     b instanceof Tlink && (b.setFromNode(null), b.setToNode(null)),
@@ -169,7 +168,7 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       }),
       b.removePropertyChangeListener(this.handleDataPropertyChange, this);
   },
-  clear: function() {
+  this.clear = function() {
     if (this._dataList.size() > 0) {
       this._dataList.forEach(function(a) {
         a.removePropertyChangeListener(this.handleDataPropertyChange, this);
@@ -186,16 +185,16 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
         });
     }
   },
-  getDataById: function(a) {
+  this.getDataById = function(a) {
     return this._dataMap[a];
   },
-  containsById: function(a) {
+  this.containsById = function(a) {
     return this._dataMap.hasOwnProperty(a);
   },
-  contains: function(a) {
+  this.contains = function(a) {
     return a ? this._dataMap[a._id] === a : !1;
   },
-  moveTo: function(a, b) {
+  moveTo = function(a, b) {
     if (!this.contains(a)) {throw a + ' dosen\'t belong to this dataBox';}
     var c = this.getSiblings(a),
       d = c.indexOf(a);
@@ -206,46 +205,46 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
       newIndex: b
     }));
   },
-  moveUp: function(a) {
+  this.moveUp = function(a) {
     var b = this.getSiblings(a);
     this.moveTo(a, b.indexOf(a) - 1);
   },
-  moveDown: function(a) {
+  this.moveDown = function(a) {
     var b = this.getSiblings(a);
     this.moveTo(a, b.indexOf(a) + 1);
   },
-  moveToTop: function(a) {
+  this.moveToTop = function(a) {
     this.moveTo(a, 0);
   },
-  moveToBottom: function(a) {
+  this.moveToBottom = function(a) {
     var b = this.getSiblings(a);
     this.moveTo(a, b.size());
   },
-  moveSelectionUp: function(a) {
+  this.moveSelectionUp = function(a) {
     a || (a = this._selectionModel);
     var b = new List;
     box.findMoveUpDatas(a, b, this._rootList),
       b.forEach(this.moveUp, this);
   },
-  moveSelectionDown: function(a) {
+  this.moveSelectionDown = function(a) {
     a || (a = this._selectionModel);
     var b = new List;
     box.findMoveDownDatas(a, b, this._rootList),
       b.forEach(this.moveDown, this);
   },
-  moveSelectionToTop: function(a) {
+  this.moveSelectionToTop = function(a) {
     a || (a = this._selectionModel);
     var b = new List;
     box.findMoveToTopDatas(a, b, this._rootList),
       b.forEach(this.moveToTop, this);
   },
-  moveSelectionToBottom: function(a) {
+  this.moveSelectionToBottom = function(a) {
     a || (a = this._selectionModel);
     var b = new List;
     box.findMoveToBottomDatas(a, b, this._rootList),
       b.forEach(this.moveToBottom, this);
   },
-  handleDataPropertyChange: function(a) {
+  this.handleDataPropertyChange = function(a) {
     var b = a.source;
     if (a.property === 'parent') {
       var c = b.getId();
@@ -254,40 +253,32 @@ _third.ext('third.DataBox', PropertyChangeDispatcher, {
     this.onDataPropertyChanged(b, a),
       this._dataPropertyChangeDispatcher.fire(a);
   },
-  onDataPropertyChanged: function(a, b) { },
-  addDataBoxChangeListener: function(a, b, c) {
+  this.onDataPropertyChanged = function(a, b) { },
+  this.addDataBoxChangeListener = function(a, b, c) {
     this._dataBoxChangeDispatcher.add(a, b, c);
   },
-  removeDataBoxChangeListener: function(a, b) {
+  this.removeDataBoxChangeListener = function(a, b) {
     this._dataBoxChangeDispatcher.remove(a, b);
   },
-  addDataPropertyChangeListener: function(a, b, c) {
+  this.addDataPropertyChangeListener = function(a, b, c) {
     this._dataPropertyChangeDispatcher.add(a, b, c);
   },
-  removeDataPropertyChangeListener: function(a, b) {
+  this.removeDataPropertyChangeListener = function(a, b) {
     this._dataPropertyChangeDispatcher.remove(a, b);
   },
-  addHierarchyChangeListener: function(a, b, c) {
+  this.addHierarchyChangeListener = function(a, b, c) {
     this._hierarchyChangeDispatcher.add(a, b, c);
   },
-  removeHierarchyChangeListener: function(a, b) {
+  this.removeHierarchyChangeListener = function(a, b) {
     this._hierarchyChangeDispatcher.remove(a, b);
-  }
-});
-
-let ColumnBox = function(a) {
-  ColumnBox.superClass.constructor.apply(this, arguments);
+  };
 };
-_third.ext('third.ColumnBox', DataBox, {
-  _name: 'ColumnBox',
-  add: function(a, b) {
-    if (!a.IColumn) {throw 'Only IColumn can be added into ColumnBox';}
-    ColumnBox.superClass.add.apply(this, arguments);
-  }
-}),
+
+Extends('third.DataBox', PropertyChangeDispatcher, DataBox);
+//DataBox.property = new PropertyChangeDispatcher,
+DataBox.prototype.getClassName = function(){
+  return 'third.DataBox';
+};
 
 // 单独导出
-module.exports = {
-  DataBox: DataBox,
-  ColumnBox: ColumnBox
-};
+module.exports = DataBox;

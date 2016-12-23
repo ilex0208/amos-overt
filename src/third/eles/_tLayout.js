@@ -1,61 +1,63 @@
 const List = require('./../core/_list');
-const _third = require('./../core/_third')._third;
 const math = require('./../core/_math');
 const Tnode = require('./_tNode');
 const Group = require('./_tGroup');
-const Tlink = require('./_tLink').Tlink;
+const Tlink = require('./_tLink');
+
+const Extends = require('./../core/_ext');
 
 let Tlayout = {};
 
 Tlayout.AutoLayouter = function(a) {
   this._box = a;
-};
-_third.ext('third.layout.AutoLayouter', Object, {
-  _expandGroup: !1,
-  _repulsion: 1,
-  _type: null,
-  _animate: !0,
-  _explicitXOffset: Number.NaN,
-  _explicitYOffset: Number.NaN,
-  _xOffset: 0,
-  _yOffset: 0,
-  isExpandGroup: function() {
+
+  // ext
+
+  this._expandGroup = !1,
+  this._repulsion = 1,
+  this._type = null,
+  this._animate = !0,
+  this._explicitXOffset = Number.NaN,
+  this._explicitYOffset = Number.NaN,
+  this._xOffset = 0,
+  this._yOffset = 0,
+  this.isExpandGroup = function() {
     return this._expandGroup;
   },
-  setExpandGroup: function(a) {
+  this.setExpandGroup = function(a) {
     this._expandGroup = a;
   },
-  getRepulsion: function() {
+  this.getRepulsion = function() {
     return this._repulsion;
   },
-  setRepulsion: function(a) {
+  this.setRepulsion = function(a) {
     this._repulsion = a;
   },
-  getType: function() {
+  this.getType = function() {
     return this._type;
   },
-  isAnimate: function() {
+  this.isAnimate = function() {
     return this._animate;
   },
-  setAnimate: function(a) {
+  this.setAnimate = function(a) {
     this._animate = a;
   },
-  getElementBox: function() {
+  this.getElementBox = function() {
     return this._box;
   },
-  getExplicitXOffset: function() {
+  this.getExplicitXOffset = function() {
     return this._explicitXOffset;
   },
-  setExplicitXOffset: function(a) {
+  this.setExplicitXOffset = function(a) {
     this._explicitXOffset = a;
   },
-  getExplicitYOffset: function() {
+  this.getExplicitYOffset = function() {
     return this._explicitYOffset;
   },
-  setExplicitYOffset: function(a) {
+  this.setExplicitYOffset = function(a) {
     this._explicitYOffset = a;
   },
-  getDimension: function(a) {
+  this.getDimension = function(a) {
     if (a instanceof Group && a.getChildrenSize() > 0) {
       var b = null;
       for (var c = 0,
@@ -73,16 +75,16 @@ _third.ext('third.layout.AutoLayouter', Object, {
       height: a.getHeight()
     };
   },
-  isVisible: function(a) {
+  this.isVisible = function(a) {
     return !0;
   },
-  isMovable: function(a) {
+  this.isMovable = function(a) {
     return !0;
   },
-  getGroupLayoutType: function(a) {
+  this.getGroupLayoutType = function(a) {
     return this._type;
   },
-  getElements: function() {
+  this.getElements = function() {
     var a, b = this._box,
       d = b.getSelectionModel().size() > 1;
     d ? a = b.getSelectionModel().getSelection() : (a = new List, b.forEachByBreadthFirst(a.add, null, a)),
@@ -104,14 +106,20 @@ _third.ext('third.layout.AutoLayouter', Object, {
     return d || (isNaN(this._explicitXOffset) ? this._xOffset = 50 / this._repulsion : this._xOffset = this._explicitXOffset, isNaN(this._explicitYOffset) ? this._yOffset = 50 / this._repulsion : this._yOffset = this._explicitYOffset),
       e;
   },
-  getLayoutResult: function(a) {
+  this.getLayoutResult = function(a) {
     var b = {};
     return this.doLayoutImpl(a, null, b),
       b;
   },
-  doLayout: function(a, b) {
+  this.doLayout = function(a, b) {
     //return this.doLayoutImpl(a, b);
-  }
-});
+  };
+};
+
+Extends('third.Tlayout.AutoLayouter', Object, Tlayout.AutoLayouter);
+//Tlayout.AutoLayouter.prototype = new Object;
+Tlayout.AutoLayouter.prototype.getClassName = function(){
+  return 'third.Tlayout.AutoLayouter';
+};
 
 module.exports = Tlayout;

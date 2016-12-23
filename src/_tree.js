@@ -5,7 +5,6 @@ const third = require('./third/index');
 const {Pool, html, canvasUtil} = third;
 const _cons = require('./constants');
 
-console.log('third:', third);
 /**
  * root 节点Icon
  */

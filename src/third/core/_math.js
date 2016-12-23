@@ -431,7 +431,16 @@ var math = {
     return Math.atan2(b.y - a.y, b.x - a.x);
   },
   getAngle: function(a, b) {
-    return a.x === b.x ? b.y === a.y ? 0 : b.y > a.y ? Math.PI / 2 : -Math.PI / 2 : Math.atan((b.y - a.y) / (b.x - a.x));
+    return a.x === b.x ?
+    b.y === a.y ?
+    0
+    :
+    b.y > a.y ?
+    Math.PI / 2
+    :
+    -Math.PI / 2
+    :
+    Math.atan((b.y - a.y) / (b.x - a.x));
   }
 };
 

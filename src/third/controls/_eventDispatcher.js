@@ -1,9 +1,9 @@
-const _third = require('./../core/_third')._third;
 const List = require('./../core/_list');
+const Extends = require('./../core/_ext');
 
-const EventDispatcher = function() { };
-_third.ext('third.EventDispatcher', null, {
-  contains: function(a, b) {
+const EventDispatcher = function() {
+  // ext
+  this.contains = function(a, b) {
     if (this._ls) {
       for (var c = 0, d = this._ls.size(), e; c < d; c++) {
         e = this._ls.get(c);
@@ -12,7 +12,7 @@ _third.ext('third.EventDispatcher', null, {
     }
     return !1;
   },
-  add: function(a, b, c) {
+  this.add = function(a, b, c) {
     var d = {
       l: a,
       s: b,
@@ -21,13 +21,13 @@ _third.ext('third.EventDispatcher', null, {
     this._ls || (this._ls = new List),
       this._f ? (this._addPendings || (this._addPendings = new List), this._addPendings.add(d)) : d.a ? this._ls.add(d, 0) : this._ls.add(d);
   },
-  remove: function(a, b) {
+  this.remove = function(a, b) {
     this._ls && (this._f ? (this._removePendings || (this._removePendings = new List), this._removePendings.add({
       l: a,
       s: b
     })) : this._remove(a, b));
   },
-  _remove: function(a, b) {
+  this._remove = function(a, b) {
     for (var c = 0,
       d = this._ls.size(), e; c < d; c++) {
       e = this._ls.get(c);
@@ -37,7 +37,7 @@ _third.ext('third.EventDispatcher', null, {
       }
     }
   },
-  fire: function(a) {
+  this.fire = function(a) {
     if (this._ls) {
       var b, c = this._ls.size(),
         d;
@@ -58,7 +58,13 @@ _third.ext('third.EventDispatcher', null, {
         delete this._addPendings;
       }
     }
-  }
-});
+  };
+};
+
+Extends('third.EventDispatcher', Object, EventDispatcher);
+
+EventDispatcher.prototype.getClassName = function(){
+  return 'third.EventDispatcher';
+};
 
 module.exports = EventDispatcher;

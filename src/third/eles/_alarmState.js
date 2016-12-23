@@ -1,5 +1,6 @@
-const _third = require('./../core/_third')._third;
+
 const AlarmSeverity = require('./_alarmSeverity');
+const Extends = require('./../core/_ext');
 
 let AlarmState = function(a) {
   this._e = a,
@@ -13,10 +14,9 @@ let AlarmState = function(a) {
     this._hls = !1,
     this._aac = 0,
     this._nac = 0;
-};
-_third.ext('third.AlarmState', Object, {
-  _ep: !0,
-  _f: function() {
+  // ext
+  this._ep = !0,
+  this._f = function() {
     this._c1(),
       this._c2(),
       this._c3(),
@@ -26,22 +26,22 @@ _third.ext('third.AlarmState', Object, {
       this._c7(),
       this._e.firePropertyChange('alarmState', null, this);
   },
-  getHighestAcknowledgedAlarmSeverity: function() {
+  this.getHighestAcknowledgedAlarmSeverity = function() {
     return this._haa;
   },
-  getHighestNewAlarmSeverity: function() {
+  this.getHighestNewAlarmSeverity = function() {
     return this._hna;
   },
-  getHighestOverallAlarmSeverity: function() {
+  this.getHighestOverallAlarmSeverity = function() {
     return this._hoa;
   },
-  getHighestNativeAlarmSeverity: function() {
+  this.getHighestNativeAlarmSeverity = function() {
     return this._hta;
   },
-  hasLessSevereNewAlarms: function() {
+  this.hasLessSevereNewAlarms = function() {
     return this._hls;
   },
-  _c1: function() {
+  this._c1 = function() {
     var a = null;
     for (var b in this._am) {
       b = AlarmSeverity.getByName(b);
@@ -51,7 +51,7 @@ _third.ext('third.AlarmState', Object, {
     }
     this._haa = a;
   },
-  _c2: function() {
+  this._c2 = function() {
     var a = null;
     for (var b in this._nm) {
       b = AlarmSeverity.getByName(b);
@@ -61,7 +61,7 @@ _third.ext('third.AlarmState', Object, {
     }
     this._hna = a;
   },
-  _c3: function() {
+  this._c3 = function() {
     if (!this._hna) {
       this._hls = !1;
       return;
@@ -77,7 +77,7 @@ _third.ext('third.AlarmState', Object, {
     }
     this._hls = !1;
   },
-  _c4: function() {
+  this._c4 = function() {
     var a = this._haa,
       b = this._hna,
       d = this._ps;
@@ -85,13 +85,13 @@ _third.ext('third.AlarmState', Object, {
       AlarmSeverity.compare(b, this._hoa) > 0 && (this._hoa = b),
       AlarmSeverity.compare(d, this._hoa) > 0 && (this._hoa = d);
   },
-  _c5: function() {
+  this._c5 = function() {
     var a = this._haa,
       b = this._hna;
     this._hta = a,
       AlarmSeverity.compare(b, this._hta) > 0 && (this._hta = b);
   },
-  increaseAcknowledgedAlarm: function(a, b) {
+  this.increaseAcknowledgedAlarm = function(a, b) {
     b == null && (b = 1);
     if (b === 0) { return; }
     var c = this._am[a.name];
@@ -100,7 +100,7 @@ _third.ext('third.AlarmState', Object, {
       this._am[a.name] = c,
       this._f();
   },
-  increaseNewAlarm: function(a, b) {
+  this.increaseNewAlarm = function(a, b) {
     b == null && (b = 1);
     if (b === 0) { return; }
     var c = this._nm[a.name];
@@ -109,7 +109,7 @@ _third.ext('third.AlarmState', Object, {
       this._nm[a.name] = c,
       this._f();
   },
-  decreaseAcknowledgedAlarm: function(a, b) {
+  this.decreaseAcknowledgedAlarm = function(a, b) {
     b == null && (b = 1);
     if (b === 0) { return; }
     var c = this._am[a.name];
@@ -119,7 +119,7 @@ _third.ext('third.AlarmState', Object, {
     this._am[a.name] = c,
       this._f();
   },
-  decreaseNewAlarm: function(a, b) {
+  this.decreaseNewAlarm = function(a, b) {
     b == null && (b = 1);
     if (b === 0) { return; }
     var c = this._nm[a.name];
@@ -129,76 +129,76 @@ _third.ext('third.AlarmState', Object, {
     this._nm[a.name] = c,
       this._f();
   },
-  acknowledgeAlarm: function(a) {
+  this.acknowledgeAlarm = function(a) {
     this.decreaseNewAlarm(a, 1),
       this.increaseAcknowledgedAlarm(a, 1);
   },
-  acknowledgeAllAlarms: function(a) {
+  this.acknowledgeAllAlarms = function(a) {
     if (a) {
       var b = this.getNewAlarmCount(a);
       this.decreaseNewAlarm(a, b),
         this.increaseAcknowledgedAlarm(a, b);
     } else { for (var d in this._nm) { this.acknowledgeAllAlarms(AlarmSeverity.getByName(d)); } }
   },
-  _c6: function() {
+  this._c6 = function() {
     this._aac = 0;
     for (var a in this._am) {
       a = AlarmSeverity.getByName(a),
       this._aac += this.getAcknowledgedAlarmCount(a);
     }
   },
-  getAcknowledgedAlarmCount: function(a) {
+  this.getAcknowledgedAlarmCount = function(a) {
     if (a) {
       var b = this._am[a.name];
       return b == null ? 0 : b;
     }
     return this._aac;
   },
-  getAlarmCount: function(a) {
+  this.getAlarmCount = function(a) {
     return this.getAcknowledgedAlarmCount(a) + this.getNewAlarmCount(a);
   },
-  _c7: function() {
+  this._c7 = function() {
     this._nac = 0;
     for (var a in this._nm) {
       a = AlarmSeverity.getByName(a),
       this._nac += this.getNewAlarmCount(a);
     }
   },
-  getNewAlarmCount: function(a) {
+  this.getNewAlarmCount = function(a) {
     if (a) {
       var b = this._nm[a.name];
       return b == null ? 0 : b;
     }
     return this._nac;
   },
-  setNewAlarmCount: function(a, b) {
+  this.setNewAlarmCount = function(a, b) {
     this._nm[a.name] = b,
       this._f();
   },
-  removeAllNewAlarms: function(a) {
+  this.removeAllNewAlarms = function(a) {
     a ? delete this._nm[a] : this._nm = {},
       this._f();
   },
-  setAcknowledgedAlarmCount: function(a, b) {
+  this.setAcknowledgedAlarmCount = function(a, b) {
     this._am[a.name] = b,
       this._f();
   },
-  removeAllAcknowledgedAlarms: function(a) {
+  this.removeAllAcknowledgedAlarms = function(a) {
     a ? delete this._am[a.name] : this._am = {},
       this._f();
   },
-  isEmpty: function() {
+  this.isEmpty = function() {
     return this._hoa == null;
   },
-  clear: function() {
+  this.clear = function() {
     this._am = {},
       this._nm = {},
       this._f();
   },
-  getPropagateSeverity: function() {
+  this.getPropagateSeverity = function() {
     return this._ps;
   },
-  setPropagateSeverity: function(a) {
+  this.setPropagateSeverity = function(a) {
     this._ep || (a = null);
     if (this._ps === a) { return; }
     var b = this._ps;
@@ -206,15 +206,21 @@ _third.ext('third.AlarmState', Object, {
       this._f(),
       this._e.firePropertyChange('propagateSeverity', b, a);
   },
-  isEnablePropagation: function() {
+  this.isEnablePropagation = function() {
     return this._ep;
   },
-  setEnablePropagation: function(a) {
+  this.setEnablePropagation = function(a) {
     var b = this._ep;
     this._ep = a,
       this._e.firePropertyChange('enablePropagation', b, a) && (a || this.setPropagateSeverity(null));
-  }
-});
+  };
+};
 
+
+Extends('third.AlarmState', Object, AlarmState);
+//AlarmState.prototype = new Object;
+AlarmState.prototype.getClassName = function(){
+  return 'third.AlarmState';
+};
 
 module.exports = AlarmState;

@@ -1,36 +1,44 @@
 
 const Data = require('./_tData');
 const AlarmState = require('./_alarmState');
-const _third = require('./../core/_third')._third;
 
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
+
+const Extends = require('./../core/_ext');
+
+
 let Telement = function(a) {
   this._styleMap = this._styleMap || {},
     this._alarmState = new AlarmState(this),
     Element.superClass.constructor.call(this, a);
-};
-_third.ext('third.Telement', Data, {
-  IElement: !0,
-  IStyle: !0,
-  __accessor: ['layerId'],
-  __style: 1,
-  _layerId: Bd.LAYER_DEFAULT_ID,
-  getAlarmState: function() {
+  // ext
+  this.IElement = !0,
+  this.IStyle = !0,
+  this.__accessor = ['layerId'],
+  this.__style = 1,
+  this._layerId = Bd.LAYER_DEFAULT_ID,
+  this.getAlarmState = function() {
     return this._alarmState;
   },
-  isAdjustedToBottom: function() {
+  this.isAdjustedToBottom = function() {
     return !1;
   },
-  getElementUIClass: function() {
+  this.getElementUIClass = function() {
     return null;
   },
-  getCanvasUIClass: function() {
+  this.getCanvasUIClass = function() {
     return null;
   },
-  getVectorUIClass: function() {
+  this.getVectorUIClass = function() {
     return null;
-  }
-});
+  };
+};
+
+Extends('third.Telement', Data, Telement);
+//Telement.prototype = new Data;
+Telement.prototype.getClassName = function(){
+  return 'third.Telement';
+};
 
 module.exports = Telement;

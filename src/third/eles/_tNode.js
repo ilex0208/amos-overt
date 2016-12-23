@@ -5,6 +5,8 @@ const Telement = require('./_tElement');
 const List = require('./../core/_list');
 const math = require('./../core/_math');
 
+const Extends = require('./../core/_ext');
+
 
 let Tnode = function(a) {
   this._location = {
@@ -12,72 +14,65 @@ let Tnode = function(a) {
     y: 0
   },
     Tnode.superClass.constructor.call(this, a);
-};
-Tnode.IS_INTERESTED_NODE_PROPERTY = {
-  location: 1,
-  width: 1,
-  height: 1,
-  expanded: 1
-},
-_third.ext('third.Node', Telement, {
-  _icon: Bd.ICON_NODE,
-  _image: Bd.IMAGE_NODE,
-  _angle: 0,
-  getLoopedLinks: function() {
+  // ext
+  this._icon = Bd.ICON_NODE,
+  this._image = Bd.IMAGE_NODE,
+  this._angle = 0,
+  this.getLoopedLinks = function() {
     return this._loopedLinks;
   },
-  getLinks: function() {
+  this.getLinks = function() {
     return this._links;
   },
-  getAgentLinks: function() {
+  this.getAgentLinks = function() {
     return this._agentLinks;
   },
-  getFollowers: function() {
+  this.getFollowers = function() {
     return this._followers;
   },
-  _addFollower: function(a) {
+  this._addFollower = function(a) {
     this._followers || (this._followers = new List),
       this._followers.add(a);
   },
-  _removeFollower: function(a) {
+  this._removeFollower = function(a) {
     this._followers.remove(a),
       this._followers.isEmpty() && delete this._followers;
   },
-  getFromLinks: function() {
+  this.getFromLinks = function() {
     return this._fromLinks;
   },
-  getToLinks: function() {
+  this.getToLinks = function() {
     return this._toLinks;
   },
-  _addFromLink: function(a) {
+  this._addFromLink = function(a) {
     this._allLinks || (this._allLinks = new List),
       this._fromLinks || (this._fromLinks = new List),
       this._allLinks.add(a),
       this._fromLinks.add(a),
       this._resetLinkSet();
   },
-  _addToLink: function(a) {
+  this._addToLink = function(a) {
     this._allLinks || (this._allLinks = new List),
       this._toLinks || (this._toLinks = new List),
       this._allLinks.add(a),
       this._toLinks.add(a),
       this._resetLinkSet();
   },
-  _removeFromLink: function(a) {
+  this._removeFromLink = function(a) {
     this._allLinks.remove(a),
       this._fromLinks.remove(a),
       this._allLinks.size() === 0 && delete this._allLinks,
       this._fromLinks.size() === 0 && delete this._fromLinks,
       this._resetLinkSet();
   },
-  _removeToLink: function(a) {
+  this._removeToLink = function(a) {
     this._allLinks.remove(a),
       this._toLinks.remove(a),
       this._allLinks.size() === 0 && delete this._allLinks,
       this._toLinks.size() === 0 && delete this._toLinks,
       this._resetLinkSet();
   },
-  _resetLinkSet: function() {
+  this._resetLinkSet = function() {
     delete this._loopedLinks;
     if (!this._allLinks || this._allLinks.size() === 0) {
       delete this._links;
@@ -93,44 +88,44 @@ _third.ext('third.Node', Telement, {
       },
         this)) : this._links = this._allLinks;
   },
-  hasAgentLinks: function() {
+  this.hasAgentLinks = function() {
     return this._agentLinks != null && !this._agentLinks.isEmpty();
   },
-  getFromAgentLinks: function() {
+  this.getFromAgentLinks = function() {
     return this._fromAgentLinks;
   },
-  getToAgentLinks: function() {
+  this.getToAgentLinks = function() {
     return this._toAgentLinks;
   },
-  _addFromAgentLink: function(a) {
+  this._addFromAgentLink = function(a) {
     this._fromAgentLinks || (this._fromAgentLinks = new List),
       this._allAgentLinks || (this._allAgentLinks = new List),
       this._fromAgentLinks.add(a),
       this._allAgentLinks.add(a),
       this._resetAgentLinkSet();
   },
-  _addToAgentLink: function(a) {
+  this._addToAgentLink = function(a) {
     this._toAgentLinks || (this._toAgentLinks = new List),
       this._allAgentLinks || (this._allAgentLinks = new List),
       this._toAgentLinks.add(a),
       this._allAgentLinks.add(a),
       this._resetAgentLinkSet();
   },
-  _removeFromAgentLink: function(a) {
+  this._removeFromAgentLink = function(a) {
     this._fromAgentLinks.remove(a),
       this._allAgentLinks.remove(a),
       this._fromAgentLinks.size() === 0 && delete this._fromAgentLinks,
       this._allAgentLinks.size() === 0 && delete this._allAgentLinks,
       this._resetAgentLinkSet();
   },
-  _removeToAgentLink: function(a) {
+  this._removeToAgentLink = function(a) {
     this._toAgentLinks.remove(a),
       this._allAgentLinks.remove(a),
       this._toAgentLinks.size() === 0 && delete this._toAgentLinks,
       this._allAgentLinks.size() === 0 && delete this._allAgentLinks,
       this._resetAgentLinkSet();
   },
-  _resetAgentLinkSet: function() {
+  this._resetAgentLinkSet = function() {
     delete this._agentLinks;
     if (!this._allAgentLinks || this._allAgentLinks.size() === 0) {
       return;
@@ -145,10 +140,10 @@ _third.ext('third.Node', Telement, {
       },
         this) : this._agentLinks = this._allAgentLinks;
   },
-  getImage: function() {
+  this.getImage = function() {
     return this._image;
   },
-  setImage: function(a) {
+  this.setImage = function(a) {
     var b = this._image,
       c = this.getWidth(),
       d = this.getHeight();
@@ -157,22 +152,22 @@ _third.ext('third.Node', Telement, {
       this.firePropertyChange('width', c, this.getWidth()),
       this.firePropertyChange('height', d, this.getHeight());
   },
-  getX: function() {
+  this.getX = function() {
     return this._location.x;
   },
-  getY: function() {
+  this.getY = function() {
     return this._location.y;
   },
-  setX: function(a) {
+  this.setX = function(a) {
     this.setLocation(a, this._location.y);
   },
-  setY: function(a) {
+  this.setY = function(a) {
     this.setLocation(this._location.x, a);
   },
-  getLocation: function() {
+  this.getLocation = function() {
     return this._location;
   },
-  setLocation: function(a, b) {
+  this.setLocation = function(a, b) {
     var c;
     arguments.length === 2 ? c = {
       x: arguments[0],
@@ -188,13 +183,13 @@ _third.ext('third.Node', Telement, {
     this._location = c,
       this.firePropertyChange('location', e, c);
   },
-  getCenterLocation: function() {
+  this.getCenterLocation = function() {
     return {
       x: this.getX() + this.getWidth() / 2,
       y: this.getY() + this.getHeight() / 2
     };
   },
-  setCenterLocation: function(a, b) {
+  this.setCenterLocation = function(a, b) {
     var c;
     arguments.length === 2 ? c = {
       x: arguments[0],
@@ -207,10 +202,10 @@ _third.ext('third.Node', Telement, {
       c.y -= this.getHeight() / 2,
       this.setLocation(c);
   },
-  translate: function(a, b) {
+  this.translate = function(a, b) {
     this.setLocation(this.getX() + a, this.getY() + b);
   },
-  getWidth: function() {
+  this.getWidth = function() {
     if (_third.num(this._width) && this._width >= 0) {
       return this._width;
     }
@@ -223,12 +218,12 @@ _third.ext('third.Node', Telement, {
     }
     return Bd.NODE_WIDTH;
   },
-  setWidth: function(a) {
+  this.setWidth = function(a) {
     var b = this._width;
     this._width = a,
       this.firePropertyChange('width', b, a);
   },
-  getHeight: function() {
+  this.getHeight = function() {
     if (_third.num(this._height) && this._height >= 0) {
       return this._height;
     }
@@ -241,21 +236,21 @@ _third.ext('third.Node', Telement, {
     }
     return Bd.NODE_HEIGHT;
   },
-  setHeight: function(a) {
+  this.setHeight = function(a) {
     var b = this._height;
     this._height = a,
       this.firePropertyChange('height', b, a);
   },
-  setSize: function() {
+  this.setSize = function() {
     arguments.length === 2 ? (this.setWidth(arguments[0]), this.setHeight(arguments[1])) : (this.setWidth(arguments[0].width), this.setHeight(arguments[0].height));
   },
-  getSize: function() {
+  this.getSize = function() {
     return {
       width: this.getWidth(),
       height: this.getHeight()
     };
   },
-  getRect: function() {
+  this.getRect = function() {
     if (this._angle === 0) {
       return this.getOriginalRect();
     }
@@ -280,7 +275,7 @@ _third.ext('third.Node', Telement, {
     var e = math.getRect(b);
     return e;
   },
-  getOriginalRect: function() {
+  this.getOriginalRect = function() {
     return {
       x: this.getX(),
       y: this.getY(),
@@ -288,18 +283,30 @@ _third.ext('third.Node', Telement, {
       height: this.getHeight()
     };
   },
-  getAngle: function() {
+  this.getAngle = function() {
     return this._angle;
   },
-  setAngle: function(a) {
+  this.setAngle = function(a) {
     var b = this._angle;
     this._angle = a % 360,
       this.firePropertyChange('angle', b, this._angle);
   },
-  onParentChanged: function(a, b) {
+  this.onParentChanged = function(a, b) {
     Tnode.superClass.onParentChanged.call(this, a, b),
       this._checkLinkAgent();
-  }
-});
+  };
+};
+Tnode.IS_INTERESTED_NODE_PROPERTY = {
+  location: 1,
+  width: 1,
+  height: 1,
+  expanded: 1
+};
+
+Extends('third.Tnode', Telement, Tnode);
+//Tnode.prototype = new Telement;
+Tnode.prototype.getClassName = function(){
+  return 'third.Tnode';
+};
 
 module.exports = Tnode;

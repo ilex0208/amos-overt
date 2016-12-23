@@ -1,5 +1,6 @@
 const _third = require('./../core/_third')._third;
 const List = require('./../core/_list');
+const Extends = require('./../core/_ext');
 
 let QuickFinder = function(a, b, c, e, f) {
   this._map = {};
@@ -14,19 +15,20 @@ let QuickFinder = function(a, b, c, e, f) {
     this._dataBox.forEach(this._addData, this),
     this._dataBox.addDataBoxChangeListener(this.handleDataBoxChange, this, !0),
     this._dataBox.addDataPropertyChangeListener(this.handleDataPropertyChange, this, !0);
-};
-_third.ext('third.QuickFinder', Object, {
-  _NULL_: 'third-null-key',
-  getValueFunction: function() {
+
+  // ext
+
+  this._NULL_ = 'third-null-key',
+  this.getValueFunction = function() {
     return this._valueFunction;
   },
-  getFilterFunction: function() {
+  this.getFilterFunction = function() {
     return this._filterFunction;
   },
-  handleDataBoxChange: function(a) {
+  this.handleDataBoxChange = function(a) {
     a.kind === 'add' ? this._addData(a.data) : a.kind === 'remove' ? this._removeData(a.data) : a.kind === 'clear' && (this._map = {});
   },
-  handleDataPropertyChange: function(a) {
+  this.handleDataPropertyChange = function(a) {
     if (!this._filterFunction.call(this, a.source)) { return; }
     if (this._propertyType !== 'accessor' || this._propertyName !== a.property) {
       if (this._propertyType !== 'style' || !a.source.IStyle || 'S:' + this._propertyName !== a.property)
@@ -36,51 +38,57 @@ _third.ext('third.QuickFinder', Object, {
     b && b.remove(a.source),
       this._addData(a.source);
   },
-  _getMap: function(a) {
+  this._getMap = function(a) {
     return a = a == null ? this._NULL_ : a,
       this._map[a];
   },
-  find: function(a) {
+  this.find = function(a) {
     var b = this._getMap(a);
     return b ? b.toList() : new List;
   },
-  findFirst: function(a) {
+  this.findFirst = function(a) {
     var b = this._getMap(a);
     return !b || b.isEmpty() ? null : b.get(0);
   },
-  _addData: function(a) {
+  this._addData = function(a) {
     if (!this._filterFunction.call(this, a)) { return; }
     var b = this._valueFunction.call(this, a),
       c = this._getMap(b);
     c || (c = new List, b = b == null ? this._NULL_ : b, this._map[b] = c),
       c.add(a);
   },
-  _removeData: function(a) {
+  this._removeData = function(a) {
     if (!this._filterFunction.call(this, a)) { return; }
     var b = this._valueFunction.call(this, a),
       c = this._getMap(b);
     c && (c.remove(a), c.isEmpty() && (b = b == null ? this._NULL_ : b, delete this._map[b]));
   },
-  dispose: function() {
+  this.dispose = function() {
     this._dataBox.removeDataBoxChangeListener(this.handleDataBoxChange, this),
       this._dataBox.removeDataPropertyChangeListener(this.handleDataPropertyChange, this),
       delete this._dataBox;
   },
-  getDataBox: function() {
+  this.getDataBox = function() {
     return this._dataBox;
   },
-  getPropertyType: function() {
+  this.getPropertyType = function() {
     return this._propertyType;
   },
-  getPropertyName: function() {
+  this.getPropertyName = function() {
     return this._propertyName;
   },
-  isInterested: function(a) {
+  this.isInterested = function(a) {
     return this._propertyType === 'style' && !a.IStyle ? !1 : this._propertyType === 'accessor' && this._valueFunction === this.getValue && !a[this._getter] ? !1 : !0;
   },
-  getValue: function(a) {
+  this.getValue = function(a) {
     return this._propertyType === 'accessor' ? a[this._getter]() : this._propertyType === 'style' && a.getStyle ? a.getStyle(this._propertyName) : this._propertyType === 'client' && a.getClient ? a.getClient(this._propertyName) : null;
-  }
-});
+  };
+};
+
+Extends('third.QuickFinder', Object, QuickFinder);
+//QuickFinder.prototype = new Object;
+QuickFinder.prototype.getClassName = function(){
+  return 'third.QuickFinder';
+};
 
 module.exports = QuickFinder;

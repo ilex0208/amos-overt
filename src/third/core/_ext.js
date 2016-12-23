@@ -15,6 +15,6 @@ module.exports = function(className, superClass, subClass) {
   subClass.superClass = superClass.prototype; //自定义一个子类的静态属性 接受父类的原型对象
   //判断父类的原型对象的构造器 (加保险)
   if (superClass.prototype.constructor == Object.prototype.constructor) {
-    superClass.prototype.constructor = superClass; //手动欢迎父类原型对象的构造器
+    superClass.prototype.constructor = superClass; //手动还原父类原型对象的构造器
   }
 };
