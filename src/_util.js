@@ -794,7 +794,7 @@ if (!window.console) { //IE
  */
 let _userAgent = function() {
   var _agent = {},
-  compareAgent = navigator.userAgent.toLowerCase();
+    compareAgent = navigator.userAgent.toLowerCase();
   return _agent.isOpera = /opera/.test(compareAgent),
   _agent.isIE = /msie/.test(compareAgent) || /trident/.test(compareAgent),
   _agent.isFirefox = /firefox/i.test(compareAgent),
@@ -806,8 +806,8 @@ let _userAgent = function() {
   _agent.isAndroid = /android/i.test(compareAgent),
   _agent.isWebOS = /webos/i.test(compareAgent),
   _agent.isMSToucheable = navigator.msMaxTouchPoints && navigator.msMaxTouchPoints > 1,
-  _agent.isTouchable = "ontouchend" in document || _agent.isMSToucheable,
-  _agent
+  _agent.isTouchable = 'ontouchend' in document || _agent.isMSToucheable,
+  _agent;
 } ();
 
 module.exports = {

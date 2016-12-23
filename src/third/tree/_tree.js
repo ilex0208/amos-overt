@@ -1,5 +1,8 @@
+const canvasUtil = require('./../core/canvasUtil');
+const _third = require('./../core/_third');
+
 function Tree(scene) {
-  a._rootVisible = true,
+  this._rootVisible = true,
   this.initialize = function() {
 
   },
@@ -38,7 +41,8 @@ function Tree(scene) {
     },
     this._addIcon = function(_dom, ele, nodeType, data) {
       let imgAsset = ele.getImageAsset(nodeType),
-        alarmColor = imgAsset.AlarmColor(),
+        innerColor = this.getInnerColor(ele),
+        alarmColor = this.getAlarmFillColor(ele),
         _canvas;
       if (imgAsset && imgAsset.getImage()) {
         var _width = imgAsset.getWidth(),
@@ -49,9 +53,9 @@ function Tree(scene) {
           _canvas.setAttribute('height', _height);
         var ctx = _canvas.getContext('2d');
         ctx.clearRect(0, 0, _width, _height),
-          ctx.drawImage(imgAsset.getImage(g), 0, 0, _width, _height),
+          ctx.drawImage(imgAsset.getImage(innerColor), 0, 0, _width, _height),
           alarmColor && (
-            ctx.fillStyle = p.createRadialGradient(ctx, alarmColor, 'white', 1, _height - 9, 8, 8, .75, .25),
+            ctx.fillStyle = canvasUtil.createRadialGradient(ctx, alarmColor, 'white', 1, _height - 9, 8, 8, .75, .25),
             ctx.beginPath(),
             ctx.arc(5, _height - 5, 4, 0, Math.PI * 2, !0),
             ctx.closePath(),
@@ -72,26 +76,28 @@ function Tree(scene) {
         h = this.__spanPool.get();
       g ? h.style.width = this._indent * f + 'px' : h.style.width = this._indent * (f + 1) + 'px',
         h.style.display = 'inline-block',
-        a.appendChild(h);
+        _dom.appendChild(h);
       if (g) {
         var i = this.__imagePool.get();
-        i.setAttribute('src', d.getImageSrc(g)),
+        i.setAttribute('src', _element.getImageSrc(g)),
           i.style.verticalAlign = 'middle',
           i._expandData = _element,
-          a.appendChild(i);
+          _dom.appendChild(i);
       }
       var j = this.isCheckable(_element),
         k = this.getUncheckableStyle() === 'disabled';
       if (j || k) {
-        var l = this._addCheckBox(a, _element, e);
+        var l = this._addCheckBox(_dom, _element, e);
         l.disabled = !j;
       }
       var m = this.getIcon(_element);
       if (m) {
-        var n = this.isCheckMode() || this._treeColumn ? null : b;
-        this._addIcon(a, _element, m, n);
+        var n = this.isCheckMode() || this._treeColumn ? null : _element;
+        this._addIcon(_dom, _element, m, n);
       }
       var o = this.getLabel(_element);
-      o && (h = this.__textPool.get(), h.style.whiteSpace = 'nowrap', h.style.verticalAlign = 'middle', h.style.padding = '1px 2px 1px 2px', d.setText(h, o, this._treeColumn ? this._treeColumn.isInnerText() : this._innerText), !this.isCheckMode() && !this._treeColumn ? (h._selectData = _element, h.style.backgroundColor = e ? this.getSelectColor(_element) : '') : this._focusedRow === c && (h.style.backgroundColor = this.getSelectColor(_element)), this.onLabelRendered(h, _element, o, c, f, e), a.appendChild(h));
+      o && (h = this.__textPool.get(), h.style.whiteSpace = 'nowrap', h.style.verticalAlign = 'middle', h.style.padding = '1px 2px 1px 2px', _third.setText(h, o, this._treeColumn ? this._treeColumn.isInnerText() : this._innerText), !this.isCheckMode() && !this._treeColumn ? (h._selectData = _element, h.style.backgroundColor = e ? this.getSelectColor(_element) : '') : this._focusedRow === c && (h.style.backgroundColor = this.getSelectColor(_element)), this.onLabelRendered(h, _element, o, c, f, e), _dom.appendChild(h));
     };
 }
+
+module.exports = Tree;
