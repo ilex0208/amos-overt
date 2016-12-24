@@ -956,9 +956,9 @@ controls.List.prototype.getClassName = function() {
 
 
 controls.Tree = function(a) {
-  this._interactionDispatcher = new EventDispatcher,
-    this._initTree(a),
-    controls.Tree.superClass.constructor.apply(this, arguments);
+  this._interactionDispatcher = new EventDispatcher;
+  this._initTree(a);
+  controls.Tree.superClass.constructor.apply(this, arguments);
   // ext
   this.__tree = 1,
     this.__accessor = ['rootData', 'sortFunction', 'visibleFunction', 'indent', 'rowHeight', 'rowLineWidth', 'rowLineColor', 'expandIcon', 'collapseIcon', 'uncheckableStyle'],

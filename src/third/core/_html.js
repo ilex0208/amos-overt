@@ -102,7 +102,7 @@ let _html = {
     }
     return c;
   },
-  ccreateImg: function(imgSrc) {
+  createImg: function(imgSrc) {
     var b = document.createElement('img');
     return b.style.position = 'absolute',
       typeof imgSrc == 'string' && b.setAttribute('src', imgSrc),

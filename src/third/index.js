@@ -57,8 +57,6 @@ const colorUtil = require('./utils/colorUtil');
 //constants
 const Constants = require('./constants');
 
-console.log(ElementBox);
-
 systemInitial();
 const third = {
   animate: animate,
@@ -102,7 +100,8 @@ const third = {
   Tlayout ,
   Tlink,
   Tnode,
-  SubNetwork ,
+  SubNetwork,
+  Tree: controls.Tree,
 
 
   canvasUtil: canvasUtil,

@@ -194,7 +194,7 @@ let DataBox = function(a) {
   this.contains = function(a) {
     return a ? this._dataMap[a._id] === a : !1;
   },
-  moveTo = function(a, b) {
+  this.moveTo = function(a, b) {
     if (!this.contains(a)) {throw a + ' dosen\'t belong to this dataBox';}
     var c = this.getSiblings(a),
       d = c.indexOf(a);
@@ -280,5 +280,4 @@ DataBox.prototype.getClassName = function(){
   return 'third.DataBox';
 };
 
-// 单独导出
 module.exports = DataBox;
