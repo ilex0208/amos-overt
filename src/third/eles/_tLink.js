@@ -2,7 +2,7 @@ const Tnode = require('./_tNode');
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Tlink = function(a, b, d) {
   Tlink.superClass.constructor.call(this, a instanceof Tnode ? null : a),
@@ -94,7 +94,7 @@ Tlink.IS_INTERESTED_BUNDLE_STYLE = {
   'link.bundle.independent': 1
 };
 
-Extends('third.Tlink', Element, Tlink);
+invokeExtends('third.Tlink', Element, Tlink);
 //Tlink.prototype = new Element;
 Tlink.prototype.getClassName = function(){
   return 'third.Tlink';

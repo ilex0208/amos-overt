@@ -1,6 +1,6 @@
 
 const DataBox = require('./_db');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let ColumnBox = function(a) {
   ColumnBox.superClass.constructor.apply(this, arguments);
@@ -12,7 +12,7 @@ let ColumnBox = function(a) {
   };
 };
 
-Extends('third.ColumnBox', DataBox, ColumnBox);
+invokeExtends('third.ColumnBox', DataBox, ColumnBox);
 //ColumnBox.property = new DataBox;
 ColumnBox.prototype.getClassName = function(){
   return 'third.ColumnBox';

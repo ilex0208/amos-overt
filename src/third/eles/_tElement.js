@@ -5,7 +5,7 @@ const AlarmState = require('./_alarmState');
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 
 let Telement = function(a) {
@@ -35,7 +35,7 @@ let Telement = function(a) {
   };
 };
 
-Extends('third.Telement', Data, Telement);
+invokeExtends('third.Telement', Data, Telement);
 //Telement.prototype = new Data;
 Telement.prototype.getClassName = function(){
   return 'third.Telement';

@@ -1,7 +1,7 @@
 const Container = require('./_container');
 const _n = require('./_node');
 const Node = _n.Node;
-const third = require('./third/index');
+const third = require('./_third');
 const {Pool, html, canvasUtil} = third;
 const _cons = require('./constants');
 

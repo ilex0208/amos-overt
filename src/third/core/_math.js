@@ -1,4 +1,4 @@
-const _third = require('./_third')._third;
+const _tool = require('./../common/_tool');
 const List = require('./_list');
 const Position = require('./_position');
 
@@ -28,8 +28,8 @@ var math = {
     return e;
   },
   unionRect: function(a, b) {
-    if (a && !b) {return _third.clone(a);}
-    if (!a && b) {return _third.clone(b);}
+    if (a && !b) {return _tool.clone(a);}
+    if (!a && b) {return _tool.clone(b);}
     if (a && b) {
       var c = {};
       return c.x = Math.min(a.x, b.x),

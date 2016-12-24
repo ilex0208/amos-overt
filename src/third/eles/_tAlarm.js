@@ -1,5 +1,5 @@
 const Data = require('./_tData');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Alarm = function(a, b, d, e, f) {
   Alarm.superClass.constructor.call(this, a),
@@ -15,7 +15,7 @@ let Alarm = function(a, b, d, e, f) {
   this.__accessor = ['acked', 'cleared', 'alarmSeverity'];
 };
 
-Extends('third.Alarm', Data, Alarm);
+invokeExtends('third.Alarm', Data, Alarm);
 //Alarm.prototype = new Data;
 Alarm.prototype.getClassName = function(){
   return 'third.Alarm';

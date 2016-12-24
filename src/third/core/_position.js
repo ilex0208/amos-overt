@@ -1,4 +1,4 @@
-const _third = require('./_third')._third;
+const _third = require('./_third');
 
 /**
  * 获取位置,private

@@ -5,7 +5,7 @@ const Follower = require('./_Follower');
 
 const Tnode = require('./_tNode');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let SubNetwork = function(a) {
   SubNetwork.superClass.constructor.call(this, a);
@@ -25,7 +25,7 @@ let SubNetwork = function(a) {
   };
 };
 
-Extends('third.SubNetwork', Follower, SubNetwork);
+invokeExtends('third.SubNetwork', Follower, SubNetwork);
 //SubNetwork.prototype = new Follower;
 SubNetwork.prototype.getClassName = function(){
   return 'third.SubNetwork';

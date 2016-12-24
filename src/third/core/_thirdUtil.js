@@ -1,9 +1,10 @@
-const _third = require('./_third')._third;
+
 const UserAgent = require('./_userAgent');
 const popup = require('./_popup');
 const math = require('./_math');
 const html = require('./_html');
 const arrow = require('./_arrow');
+const _third = require('./_third');
 
 /**
  * third Util
@@ -29,7 +30,7 @@ const thirdUtil = {
   },
   isTypeOf: function(a, b) {
     if (a === b){ return !0;}
-    var c = a.superClass;
+    let c = a.superClass;
     while (c) {
       if (c === b.prototype){ return !0;}
       c = c.constructor.superClass;
@@ -38,7 +39,7 @@ const thirdUtil = {
   },
   setFocus: function(a) {
     if (document.activeElement === a) {return;}
-    var b, c, d = document.documentElement,
+    let b, c, d = document.documentElement,
       e = document.body,
       f;
     d && (UserAgent.isIE || UserAgent.isOpera || d.scrollLeft || d.scrollTop) ? (b = d.scrollLeft, c = d.scrollTop, f = d) : e && (b = e.scrollLeft, c = e.scrollTop, f = e),
@@ -93,7 +94,7 @@ const thirdUtil = {
     return _third.getClass(a);
   },
   getAllClassNames: function() {
-    var a = [],
+    let a = [],
       b;
     for (b in _third.classCache) {a.push(b);}
     return a;
@@ -147,10 +148,10 @@ const thirdUtil = {
     return math.getRadiansBetweenLines(a, b);
   },
   getElementsBounds: function(a, b) {
-    var d = null;
+    let d = null;
     return a.forEach(function(a) {
       if (a.getRect) {
-        var e, f;
+        let e, f;
         b && (f = b.getElementUI(a), f && (e = f.getViewRect())),
             e || (e = a.getRect()),
             d ? d = thirdUtil.unionRect(d, e) : d = e;
@@ -161,7 +162,7 @@ const thirdUtil = {
   getPointIndex: function(a, b, c) {
     c || (c = 10);
     if (a)
-      {for (var d = a.size(); d--; d >= 0)
+      {for (let d = a.size(); d--; d >= 0)
         {if (math.getDistance(a.get(d), b) <= c) {return d;}}}
     return -1;
   },

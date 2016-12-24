@@ -1,6 +1,6 @@
 
 const List = require('./../core/_list');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 /**
  * 告警级别
@@ -23,7 +23,7 @@ let AlarmSeverity = function(value, name, nickName, color, displayName) {
   };
 };
 
-Extends('third.AlarmSeverity', Object, AlarmSeverity);
+invokeExtends('third.AlarmSeverity', Object, AlarmSeverity);
 //AlarmSeverity.prototype = new Object;
 AlarmSeverity.prototype.getClassName = function(){
   return 'third.AlarmSeverity';

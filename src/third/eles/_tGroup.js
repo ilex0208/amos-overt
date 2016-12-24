@@ -3,7 +3,7 @@ const _con = require('./../constants/index');
 const Bd = _con.Bd;
 const Follower = require('./_Follower');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Group = function(a) {
   this._isUpdatingLocationFromChildren = !1,
@@ -37,7 +37,7 @@ let Group = function(a) {
   };
 };
 
-Extends('third.Group', Follower, Group);
+invokeExtends('third.Group', Follower, Group);
 //Group.prototype = new Follower;
 Group.prototype.getClassName = function(){
   return 'third.Group';

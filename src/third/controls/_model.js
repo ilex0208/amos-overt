@@ -1,15 +1,14 @@
 const EventDispatcher = require('./_eventDispatcher');
 const List = require('./../core/_list');
 const PropertyChangeDispatcher = require('./_PropertyChangeDispatcher');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let SelectionModel = function(a) {
   SelectionModel.superClass.constructor.apply(this, arguments),
     this._selectionMode = 'multipleSelection',
     this._selectionList = new List,
     this._selectionChangeDispatcher = new EventDispatcher,
-    this._selectionMap = {},
-    this._setDataBox(a);
+    this._selectionMap = {};
     // ext
   this.getSelectionMode = function() {
     return this._selectionMode;
@@ -30,9 +29,9 @@ let SelectionModel = function(a) {
     if (this._dataBox === a){ return;}
     this._dataBox && (this.clearSelection(), this._dataBox.removeDataBoxChangeListener(this.handleDataBoxChange, this));
     var b = this._dataBox;
-    this._dataBox = a,
-      this._dataBox.addDataBoxChangeListener(this.handleDataBoxChange, this, !0),
-      this.firePropertyChange('dataBox', b, this._dataBox);
+    this._dataBox = a;
+    this._dataBox.addDataBoxChangeListener(this.handleDataBoxChange, this, !0);
+    this.firePropertyChange('dataBox', b, this._dataBox);
   },
   this.dispose = function() {
     this.clearSelection(),
@@ -163,9 +162,10 @@ let SelectionModel = function(a) {
   this.isSelectable = function(a) {
     return a ? this._selectionMode === 'noneSelection' ? !1 : this._filterFunction && !this._filterFunction(a) ? !1 : !0 : !1;
   };
+  this._setDataBox(a);
 };
 
-Extends('third.SelectionModel', PropertyChangeDispatcher, SelectionModel);
+invokeExtends('third.SelectionModel', PropertyChangeDispatcher, SelectionModel);
 //SelectionModel.prototype = new PropertyChangeDispatcher;
 SelectionModel.prototype.getClassName = function(){
   return 'third.SelectionModel';

@@ -1,5 +1,5 @@
 const EventDispatcher = require('./_eventDispatcher');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let PropertyChangeDispatcher = function() {
   this._dispatcher = new EventDispatcher;
@@ -24,7 +24,7 @@ let PropertyChangeDispatcher = function() {
   this.onPropertyChanged = function(a) {};
 };
 
-Extends('third.PropertyChangeDispatcher', Object, PropertyChangeDispatcher);
+invokeExtends('third.PropertyChangeDispatcher', Object, PropertyChangeDispatcher);
 //PropertyChangeDispatcher.prototype = new Object;
 PropertyChangeDispatcher.prototype.getClassName = function(){
   return 'third.PropertyChangeDispatcher';

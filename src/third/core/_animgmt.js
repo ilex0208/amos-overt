@@ -1,5 +1,5 @@
 const List = require('./_list');
-const _third = require('./_third')._third;
+const _third = require('./_third');
 
 /**
  * 动画管理

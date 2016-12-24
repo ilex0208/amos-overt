@@ -1,11 +1,11 @@
-const _third = require('./../core/_third')._third;
+const _third = require('./../core/_third');
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
 const Telement = require('./_tElement');
 const List = require('./../core/_list');
 const math = require('./../core/_math');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 
 let Tnode = function(a) {
@@ -303,7 +303,7 @@ Tnode.IS_INTERESTED_NODE_PROPERTY = {
   expanded: 1
 };
 
-Extends('third.Tnode', Telement, Tnode);
+invokeExtends('third.Tnode', Telement, Tnode);
 //Tnode.prototype = new Telement;
 Tnode.prototype.getClassName = function(){
   return 'third.Tnode';

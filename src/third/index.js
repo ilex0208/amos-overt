@@ -2,10 +2,9 @@
 // core
 const animate = require('./core/_animgmt');
 const _arrow = require('./core/_arrow');
-const ExtendClass = require('./core/_ext');
+const invokeExtends = require('./core/_ext');
 const _html = require('./core/_html');
 const _imageAsset = require('./core/_imageAsset');
-require('./core/_init');
 const List = require('./core/_list');
 const _math = require('./core/_math');
 
@@ -14,23 +13,25 @@ const _pool = require('./core/_pool');
 const _popup = require('./core/_popup');
 const _position = require('./core/_position');
 const _render = require('./core/_render');
+const _styles = require('./core/_styles');
 
-const _t = require('./core/_third');
-const {_third, Styles, extend} = _t;
+const _touch = require('./core/_touch');
+const UserAgent = require('./core/_userAgent');
+
+const _third = require('./core/_third');
 
 const thirdUtil = require('./core/_thirdUtil');
-const _touch = require('./core/_touch');
-const UserAgent = require('./core//_userAgent');
-
+const systemInitial = require('./core/_init');
 // controls
+const EventDispatcher = require('./controls/_eventDispatcher');
+const PropertyChangeDispatcher = require('./controls/_PropertyChangeDispatcher');
 const AlarmBox = require('./controls/_alarmBox');
 const AlarmElementMapping = require('./controls/_AlarmElementMapping');
 const box = require('./controls/_box');
-const DataBox = require('./controls/_db');
 const ColumnBox = require('./controls/_ColumnBox');
-const EventDispatcher = require('./controls/_eventDispatcher');
 const controls = require('./controls/_controls');
-const PropertyChangeDispatcher = require('./controls/_PropertyChangeDispatcher');
+const DataBox = require('./controls/_db');
+const ElementBox = require('./controls/_ElementBox');
 const SelectionModel = require('./controls/_model');
 const QuickFinder = require('./controls/_quickFinder');
 
@@ -56,10 +57,13 @@ const colorUtil = require('./utils/colorUtil');
 //constants
 const Constants = require('./constants');
 
+console.log(ElementBox);
+
+systemInitial();
 const third = {
   animate: animate,
   arrow: _arrow,
-  ExtendClass,
+  invokeExtends,
   html: _html,
   ImageAsset: _imageAsset,
   List: List,
@@ -70,8 +74,7 @@ const third = {
   Position: _position,
   _render: _render,
   _third: _third,
-  Styles: Styles,
-  extend: extend,
+  Styles: _styles,
   thirdUtil: thirdUtil,
   touch: _touch,
   UserAgent: UserAgent,
@@ -79,10 +82,11 @@ const third = {
   AlarmBox,
   AlarmElementMapping,
   box,
-  DataBox,
   ColumnBox,
-  EventDispatcher,
   controls,
+  DataBox,
+  ElementBox,
+  EventDispatcher,
   PropertyChangeDispatcher,
   SelectionModel,
   QuickFinder,

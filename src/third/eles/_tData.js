@@ -1,12 +1,12 @@
 
 const PropertyChangeDispatcher = require('./../controls/_PropertyChangeDispatcher');
 const List = require('./../core/_list');
-const _third = require('./../core/_third')._third;
+const _third = require('./../core/_third');
 
 const _con = require('./../constants/index');
 const Bd = _con.Bd;
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Data = function(a) {
   Data.superClass.constructor.apply(this, arguments),
@@ -133,7 +133,7 @@ let Data = function(a) {
   };
 };
 
-Extends('third.Data', PropertyChangeDispatcher, Data);
+invokeExtends('third.Data', PropertyChangeDispatcher, Data);
 // Data.prototype = new PropertyChangeDispatcher;
 
 Data.prototype.getClassName = function(){

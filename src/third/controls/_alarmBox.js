@@ -1,8 +1,9 @@
 
 const DataBox = require('./_db');
 
-const Extends = require('./../core/_ext');
 const AlarmElementMapping = require('./_AlarmElementMapping');
+
+const invokeExtends = require('./../core/_ext');
 
 let AlarmBox = function(a) {
   if (!a) {throw 'elementBox can not be null.';}
@@ -126,7 +127,7 @@ let AlarmBox = function(a) {
   };
 };
 
-Extends('third.AlarmBox', DataBox, AlarmBox);
+invokeExtends('third.AlarmBox', DataBox, AlarmBox);
 // AlarmBox.prototype = new DataBox;
 
 AlarmBox.prototype.getClassName = function(){

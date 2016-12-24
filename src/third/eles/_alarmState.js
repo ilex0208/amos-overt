@@ -1,6 +1,6 @@
 
 const AlarmSeverity = require('./_alarmSeverity');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let AlarmState = function(a) {
   this._e = a,
@@ -217,7 +217,7 @@ let AlarmState = function(a) {
 };
 
 
-Extends('third.AlarmState', Object, AlarmState);
+invokeExtends('third.AlarmState', Object, AlarmState);
 //AlarmState.prototype = new Object;
 AlarmState.prototype.getClassName = function(){
   return 'third.AlarmState';

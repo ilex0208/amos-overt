@@ -1,5 +1,5 @@
 const List = require('./../core/_list');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 const EventDispatcher = function() {
   // ext
@@ -61,7 +61,7 @@ const EventDispatcher = function() {
   };
 };
 
-Extends('third.EventDispatcher', Object, EventDispatcher);
+invokeExtends('third.EventDispatcher', Object, EventDispatcher);
 
 EventDispatcher.prototype.getClassName = function(){
   return 'third.EventDispatcher';

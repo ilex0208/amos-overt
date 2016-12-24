@@ -4,107 +4,9 @@ const Bd = _cons.Bd;
 const UserAgent = require('./_userAgent');
 const objKey2List = require('./_objKey2List');
 
-// load all modules
-
-let Styles = {
-  _m: {},
-  setStyle: function(a, b) {
-    b == null ? delete Styles._m[a] : Styles._m[a] = b;
-  },
-  getStyle: function(a) {
-    return Styles._m[a];
-  },
-  getStyleProperties: function() {
-    return _third.keys(Styles._m);
-  }
-};
-
-let extend = {
-  __accessor: function(a, b) {
-    var c = b.__accessor,
-      e = c.length;
-    for (var f = 0; f < e; f++){ _third.ip(a, c[f]);}
-  },
-  __bool: function(a, b) {
-    var c = b.__bool,
-      e = c.length;
-    for (var f = 0; f < e; f++) {_third.ibool(a, c[f]);}
-  },
-  __client: function(a, b) {
-    a.getClient = function(a) {
-      return this._clientMap[a];
-    },
-      a.setClient = function(a, b) {
-        var c = this._clientMap[a];
-        return b == null ? delete this._clientMap[a] : this._clientMap[a] = b,
-          this.firePropertyChange('C:' + a, c, b) && this.onClientChanged(a, c, b),
-          this;
-      },
-      a.getClientProperties = function() {
-        return _third.keys(this._clientMap);
-      },
-      a.onClientChanged = function(a, b, c) { };
-  },
-  __style: function(a, e) {
-    a.getStyle = function(a, d) {
-      var e = this._styleMap[a];
-      return d === undefined && (d = !0),
-        e == null && d ? Styles.getStyle(a) : e;
-    },
-      a.setStyle = function(a, b) {
-        var c = this._styleMap[a];
-        return b == null ? delete this._styleMap[a] : this._styleMap[a] = b,
-          this.firePropertyChange('S:' + a, c, b) && this.onStyleChanged(a, c, b),
-          this;
-      },
-      a.getStyleProperties = function() {
-        return _third.keys(this._styleMap);
-      },
-      a.onStyleChanged = function(a, b, c) { };
-  },
-  __new: function(a, b) {
-    a.newInstance = function() {
-      var a = _third.getClass(this.getClassName());
-      if (!a) {return null;}
-      var b = arguments.length,
-        c = arguments;
-      if (b === 0) {return new a;}
-      if (b === 1) {return new a(c[0]);}
-      if (b === 2) {return new a(c[0], c[1]);}
-      if (b === 3) {return new a(c[0], c[1], c[2]);}
-      if (b === 4) {return new a(c[0], c[1], c[2], c[3]);}
-      if (b === 5) {return new a(c[0], c[1], c[2], c[3], c[4]);}
-      if (b === 6) {return new a(c[0], c[1], c[2], c[3], c[4], c[5]);}
-      if (b === 7) {return new a(c[0], c[1], c[2], c[3], c[4], c[5], c[6]);}
-      throw 'don\'t support args more than 7';
-    };
-  },
-  __property: function(a, b) {
-    a.getValue = function(a, b) {
-      return this._propertyType === 'accessor' ? _third.getValue(a, this._propertyName) : this._propertyType === 'style' && a.getStyle ? a.getStyle(this._propertyName) : this._propertyType === 'client' && a.getClient ? a.getClient(this._propertyName) : this._propertyType === 'field' ? a[this._propertyName] : null;
-    },
-      a.setValue = function(a, b, c) {
-        if (this._propertyType === 'accessor') {a[_third.setter(this._propertyName)](b);}
-        else {
-          if (this._propertyType === 'style' && a.setStyle) {return a.setStyle(this._propertyName, b);}
-          if (this._propertyType === 'client' && a.setClient) {return a.setClient(this._propertyName, b);}
-          this._propertyType === 'field' && (a[this._propertyName] = b);
-        }
-      };
-  },
-  map: {
-    __accessor: 1,
-    __bool: 1,
-    __client: 1,
-    __style: 1,
-    __new: 1,
-    __tree: 1,
-    __property: 1
-  },
-  ext: function(a, b, c) {
-    extend.map[a] === 1 ? extend[a](b, c) : b[a] = c[a];
-  }
-};
+// load all private modules
+const extend = require('./../private/_extend');
+const _tree = require('./../private/_tree');
 
 let _third = {
   isDeserializing: !1,
@@ -295,9 +197,24 @@ let _third = {
   }
 };
 
-// 单独导出
-module.exports = {
-  _third: _third,
-  Styles: Styles,
-  extend: extend
+extend.__new = function(a, b) {
+  a.newInstance = function() {
+    var a = _third.getClass(this.getClassName());
+    if (!a) {return null;}
+    var b = arguments.length,
+      c = arguments;
+    if (b === 0) {return new a;}
+    if (b === 1) {return new a(c[0]);}
+    if (b === 2) {return new a(c[0], c[1]);}
+    if (b === 3) {return new a(c[0], c[1], c[2]);}
+    if (b === 4) {return new a(c[0], c[1], c[2], c[3]);}
+    if (b === 5) {return new a(c[0], c[1], c[2], c[3], c[4]);}
+    if (b === 6) {return new a(c[0], c[1], c[2], c[3], c[4], c[5]);}
+    if (b === 7) {return new a(c[0], c[1], c[2], c[3], c[4], c[5], c[6]);}
+    throw 'don\'t support args more than 7';
+  };
 };
+extend.__tree = _tree;
+_third.extend = extend;
+
+module.exports = _third;

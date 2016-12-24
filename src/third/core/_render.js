@@ -1,4 +1,4 @@
-const _third = require('./../core/_third')._third;
+const _third = require('./../core/_third');
 
 const _render = {
   _string: function(a, b, c, e) {

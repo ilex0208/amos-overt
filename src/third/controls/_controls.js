@@ -2,7 +2,7 @@ const List = require('./../core/_list');
 const math = require('./../core/_math');
 const html = require('./../core/_html');
 const EventDispatcher = require('./_eventDispatcher');
-const _third = require('./../core/_third')._third;
+const _third = require('./../core/_third');
 const _cons = require('./../constants');
 const Bd = _cons.Bd;
 
@@ -18,7 +18,7 @@ const ColumnBox = require('./_ColumnBox');
 
 const PropertyChangeDispatcher = require('./_PropertyChangeDispatcher');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 const controls = {};
 
@@ -57,7 +57,7 @@ controls.ControlBase = function() {
     this.validateImpl = function() {};
 };
 
-Extends('third.controls.ControlBase', PropertyChangeDispatcher, controls.ControlBase);
+invokeExtends('third.controls.ControlBase', PropertyChangeDispatcher, controls.ControlBase);
 //controls.ControlBase.prototype = new PropertyChangeDispatcher;
 controls.ControlBase.prototype.getClassName = function() {
   return 'third.controls.ControlBase';
@@ -160,7 +160,7 @@ controls.ViewBase = function() {
         }), delete this._isValidating);
     };
 };
-Extends('third.controls.ViewBase', controls.ControlBase, controls.ViewBase);
+invokeExtends('third.controls.ViewBase', controls.ControlBase, controls.ViewBase);
 //controls.ViewBase.prototype = new controls.ControlBase;
 controls.ViewBase.prototype.getClassName = function() {
   return 'third.controls.ViewBase';
@@ -306,7 +306,7 @@ controls.View = function() {
     };
 };
 
-Extends('third.controls.View', controls.ViewBase, controls.View);
+invokeExtends('third.controls.View', controls.ViewBase, controls.View);
 //controls.View.prototype = new controls.ViewBase;
 controls.View.prototype.getClassName = function() {
   return 'third.controls.View';
@@ -510,8 +510,8 @@ controls.ListBase = function(a) {
         a.appendChild(d),
         d;
     },
-    this._addIcon = function(a, b, c, e) {
-      var f = _third.getImageAsset(c),
+    this._addIcon = function(_dom, b, regSrc, selData) {
+      var f = _third.getImageAsset(regSrc),
         g = this.getInnerColor(b),
         h = this.getOuterColor(b),
         i = this.getAlarmFillColor(b),
@@ -531,11 +531,11 @@ controls.ListBase = function(a) {
       } else {
         j = this.__imagePool.get(),
           j.style.verticalAlign = 'middle',
-          j.setAttribute('src', _third.getImageSrc(c));
+          j.setAttribute('src', _third.getImageSrc(regSrc));
       }
       j.style.margin = '0px 1px 0px 1px',
-        j._selectData = e,
-        a.appendChild(j);
+        j._selectData = selData,
+        _dom.appendChild(j);
     },
     this.isVisible = function(a) {
       return this._box.contains(a) ? this._visibleFunction ? this._visibleFunction(a) : !0 : !1;
@@ -673,7 +673,7 @@ controls.ListBase = function(a) {
     };
 };
 
-Extends('third.controls.ListBase', controls.View, controls.ListBase);
+invokeExtends('third.controls.ListBase', controls.View, controls.ListBase);
 //controls.ListBase.prototype = new controls.View;
 controls.ListBase.prototype.getClassName = function() {
   return 'third.controls.ListBase';
@@ -889,7 +889,7 @@ controls.TableBase = function(a) {
     };
 };
 
-Extends('third.controls.TableBase', controls.ListBase, controls.TableBase);
+invokeExtends('third.controls.TableBase', controls.ListBase, controls.TableBase);
 //controls.TableBase.prototype = new controls.ListBase;
 controls.TableBase.prototype.getClassName = function() {
   return 'third.controls.TableBase';
@@ -948,7 +948,7 @@ controls.List = function(a) {
 };
 
 
-Extends('third.controls.List', controls.ListBase, controls.List);
+invokeExtends('third.controls.List', controls.ListBase, controls.List);
 //controls.List.prototype = new controls.ListBase;
 controls.List.prototype.getClassName = function() {
   return 'third.controls.List';
@@ -988,7 +988,7 @@ controls.Tree = function(a) {
     };
 };
 
-Extends('third.controls.Tree', controls.ListBase, controls.Tree);
+invokeExtends('third.controls.Tree', controls.ListBase, controls.Tree);
 //controls.Tree.prototype = new controls.ListBase;
 controls.Tree.prototype.getClassName = function() {
   return 'third.controls.Tree';

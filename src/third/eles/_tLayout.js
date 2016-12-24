@@ -4,7 +4,7 @@ const Tnode = require('./_tNode');
 const Group = require('./_tGroup');
 const Tlink = require('./_tLink');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Tlayout = {};
 
@@ -116,7 +116,7 @@ Tlayout.AutoLayouter = function(a) {
   };
 };
 
-Extends('third.Tlayout.AutoLayouter', Object, Tlayout.AutoLayouter);
+invokeExtends('third.Tlayout.AutoLayouter', Object, Tlayout.AutoLayouter);
 //Tlayout.AutoLayouter.prototype = new Object;
 Tlayout.AutoLayouter.prototype.getClassName = function(){
   return 'third.Tlayout.AutoLayouter';

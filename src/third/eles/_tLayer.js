@@ -1,6 +1,6 @@
 const Data = require('./_tData');
 
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let Layer = function(a) {
   Layer.superClass.constructor.call(this, a);
@@ -14,7 +14,7 @@ let Layer = function(a) {
   this._name = 'Default';
 };
 
-Extends('third.Layer', Data, Layer);
+invokeExtends('third.Layer', Data, Layer);
 //Layer.prototype = new Data;
 Layer.prototype.getClassName = function(){
   return 'third.Layer';

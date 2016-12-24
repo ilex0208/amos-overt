@@ -1,6 +1,6 @@
 const Tnode = require('./_tNode');
-const _third = require('./../core/_third')._third;
-const Extends = require('./../core/_ext');
+const _third = require('./../core/_third');
+const invokeExtends = require('./../core/_ext');
 
 /**
  * 之下的
@@ -91,7 +91,7 @@ Follower.IS_INTERESTED_FOLLOWER_STYLE = {
   'follower.padding.bottom': 1
 };
 
-Extends('third.Follower', Tnode, Follower);
+invokeExtends('third.Follower', Tnode, Follower);
 //Follower.prototype = new Tnode;
 Follower.prototype.getClassName = function(){
   return 'third.Follower';

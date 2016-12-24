@@ -10,7 +10,7 @@ const Tnode = require('./../eles/_tNode');
 const Tlink = require('./../eles/_tLink');
 const Follower = require('./../eles/_Follower');
 const box = require('./_box');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let DataBox = function(a) {
   DataBox.superClass.constructor.apply(this, arguments),
@@ -274,7 +274,7 @@ let DataBox = function(a) {
   };
 };
 
-Extends('third.DataBox', PropertyChangeDispatcher, DataBox);
+invokeExtends('third.DataBox', PropertyChangeDispatcher, DataBox);
 //DataBox.property = new PropertyChangeDispatcher,
 DataBox.prototype.getClassName = function(){
   return 'third.DataBox';

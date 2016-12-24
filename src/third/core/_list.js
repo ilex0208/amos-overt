@@ -1,3 +1,4 @@
+const invokeExtends = require('./../core/_ext');
 /**
  * 树的id集合
  */
@@ -107,4 +108,9 @@ let List = function() {
   };
 };
 
+invokeExtends('third.List', Object, List);
+//List.property = new Object,
+List.prototype.getClassName = function(){
+  return 'third.List';
+};
 module.exports = List;

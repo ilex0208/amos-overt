@@ -1,6 +1,6 @@
-const _third = require('./../core/_third')._third;
+const _third = require('./../core/_third');
 const List = require('./../core/_list');
-const Extends = require('./../core/_ext');
+const invokeExtends = require('./../core/_ext');
 
 let QuickFinder = function(a, b, c, e, f) {
   this._map = {};
@@ -85,7 +85,7 @@ let QuickFinder = function(a, b, c, e, f) {
   };
 };
 
-Extends('third.QuickFinder', Object, QuickFinder);
+invokeExtends('third.QuickFinder', Object, QuickFinder);
 //QuickFinder.prototype = new Object;
 QuickFinder.prototype.getClassName = function(){
   return 'third.QuickFinder';
