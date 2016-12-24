@@ -5,6 +5,7 @@ const third = require('./_third');
 const {Pool, html, canvasUtil} = third;
 const _cons = require('./constants');
 
+const innerSpace = 5;
 /**
  * root 节点Icon
  */
@@ -31,6 +32,7 @@ function Tree(rootDom, _scene, treeName) {
     this.__textPool = new Pool('span', 20),
     this.rootDom = rootDom,
     this.treeDatas = buildTreeData(_scene, treeName);
+  this.width = '200px';
   this.paintTree = function() {
     let _rowHeight = 23,
       _rowLineWidth = 5,
@@ -46,18 +48,38 @@ function Tree(rootDom, _scene, treeName) {
         sty.borderStyle = 'solid',
         sty.borderWidth = '0px',
         sty.borderBottomWidth = _rowLineWidth + 'px',
-        sty.borderBottomColor = _rowLineColor,
+        sty.borderBottomColor = _rowLineColor;
+      sty.height = '19px',
+        sty.width = this.width;
+      d.level === 0 ? (_div.appendChild(_boolSpan(true)),_div.appendChild(_boolImg())) : _div.appendChild(_boolSpan(false));
       rootDom.appendChild(_addIcon2(_div, d, d.icon));
       let span = html.createSpan();
       span.style.margin = '0';
-      span.padding = '1px 2px';
-      span.whiteSpace = 'nowrap';
-      span.verticalAlign = 'middle';
+      span.style.padding = '1px 2px';
+      span.style.whiteSpace = 'nowrap';
+      span.style.verticalAlign = 'middle';
       span.innerHTML = d.name;
       _div.appendChild(span);
     });
   };
   this.paintTree();
+}
+
+function _boolSpan(isRoot){
+  let span = html.createSpan();
+  span.style.margin = '0';
+  span.style.padding = '0';
+  span.style.width = isRoot ? '0' : '32px';
+  span.style.display = 'inline-block';
+  return span;
+}
+
+function _boolImg(){
+  let img = html.createImg(_cons.UNEXPAND);
+  img.style.margin = '0';
+  img.style.padding = '0';
+  img.style.verticalAlign = 'middle';
+  return img;
 }
 
 /**
@@ -72,7 +94,7 @@ function buildTreeData(scene, treeName) {
   let rootData = {
     name: 'Root' || treeName,
     icon: rootIcon(),
-    level: 1,
+    level: 0,
     eleId: scene.getId(),
     elementType: 'root'
   };
@@ -84,7 +106,7 @@ function buildTreeData(scene, treeName) {
           result.push({
             name: item.text || '   ',
             icon: item.icon || defaultIcon(),
-            level: 2,
+            level: 1,
             eleId: item.getId(),
             elementType: item.elementType,
             alarmColor: item.alarmColor
@@ -94,7 +116,7 @@ function buildTreeData(scene, treeName) {
           result.push({
             name: item.text || 'Node',
             icon: item.icon || defaultIcon(),
-            level: 3,
+            level: 2,
             eleId: item.getId(),
             elementType: item.elementType,
             alarmColor: item.alarmColor
