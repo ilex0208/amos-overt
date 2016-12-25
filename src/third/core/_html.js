@@ -143,23 +143,23 @@ let _html = {
       can.height = height,
       can;
   },
-  setCanvas: function(a, b, c, d, e) {
-    arguments.length === 2 && (c = b.y, d = b.width, e = b.height, b = b.x),
-            a.style.left = b + 'px',
-            a.style.top = c + 'px',
-            a.setAttribute('width', d),
-            a.setAttribute('height', e),
-            a._viewRect = {
+  setCanvas: function(_canvas, b, top, width, height) {
+    arguments.length === 2 && (top = b.y, width = b.width, height = b.height, b = b.x),
+            _canvas.style.left = b + 'px',
+            _canvas.style.top = top + 'px',
+            _canvas.setAttribute('width', width),
+            _canvas.setAttribute('height', height),
+            _canvas._viewRect = {
               x: b,
-              y: c,
-              width: d,
-              height: e
+              y: top,
+              width: width,
+              height: height
             };
-    let f = a.getContext('2d');
-    return f.shadowBlur !== 0 && (f.shadowOffsetX = 0, f.shadowOffsetY = 0, f.shadowBlur = 0, f.shadowColor = 'rgba(0,0,0,0.0)'),
-            f.clearRect(0, 0, d, e),
-            f.translate(-b, -c),
-            f;
+    let ctx = _canvas.getContext('2d');
+    return ctx.shadowBlur !== 0 && (ctx.shadowOffsetX = 0, ctx.shadowOffsetY = 0, ctx.shadowBlur = 0, ctx.shadowColor = 'rgba(0,0,0,0.0)'),
+            ctx.clearRect(0, 0, width, height),
+            ctx.translate(-b, -top),
+            ctx;
   },
   clone: function(a) {
     if (!a) {

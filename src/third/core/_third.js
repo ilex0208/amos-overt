@@ -24,11 +24,18 @@ let _third = {
   getImageAsset: function(a) {
     return _third.images[a];
   },
-  callLater: function(a, b, c, d) {
+  /**
+   * 延迟执行
+   * @param {function} fn 需要延迟直线的函数
+   * @param {any} fnContext 执行函数环境
+   * @param {any} params fn函数执行需要的参数
+   * @param {number} delay 延迟执行时间
+   */
+  callLater: function(fn, fnContext, params, delay) {
     return setTimeout(function() {
-      a.apply(b, c);
+      fn.apply(fnContext, params);
     },
-      d || Bd.CALL_LATER_DELAY);
+      delay || Bd.CALL_LATER_DELAY);
   },
   isEmptyObject: function(a) {
     for (let b in a) {

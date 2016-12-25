@@ -45,7 +45,7 @@ controls.ControlBase = function() {
       return this._view;
     },
     this.invalidate = function(a) {
-      this._invalidate || (this._invalidate = !0, math.callLater(this.validate, this, null, a));
+      this._invalidate || (this._invalidate = true, _third.callLater(this.validate, this, null, a));
     },
     this.validate = function() {
       if (!this._invalidate) {
@@ -143,17 +143,17 @@ controls.ViewBase = function() {
     this.fireInteractionEvent = function(a) {
       this._interactionDispatcher.fire(a);
     },
-    this.invalidate = function(a) {
-      this._invalidate || (this._invalidate = !0, this.fireViewEvent({
+    this.invalidate = function(delay) {
+      this._invalidate || (this._invalidate = true, this.fireViewEvent({
         kind: 'invalidate'
-      }), math.callLater(this.validate, this, null, a));
+      }), _third.callLater(this.validate, this, null, delay));
     },
     this.validate = function() {
       if (!this._invalidate) {
         return;
       }
       this._invalidate = !1,
-        this._view.offsetWidth === 0 && this._view.offsetHeight === 0 && this._reinvalidateCount !== null ? (this._reinvalidateCount === undefined && (this._reinvalidateCount = 100), this._reinvalidateCount > 0 ? this._reinvalidateCount-- : this._reinvalidateCount = null, this.invalidate()) : (this._isValidating = !0, this.fireViewEvent({
+        this._view.offsetWidth === 0 && this._view.offsetHeight === 0 && this._reinvalidateCount !== null ? (this._reinvalidateCount === undefined && (this._reinvalidateCount = 100), this._reinvalidateCount > 0 ? this._reinvalidateCount-- : this._reinvalidateCount = null, this.invalidate()) : (this._isValidating = true, this.fireViewEvent({
           kind: 'validateStart'
         }), this.validateImpl(), this.fireViewEvent({
           kind: 'validateEnd'
@@ -403,8 +403,8 @@ controls.ListBase = function(a) {
       if (this._invalidateModel) {
         return;
       }
-      this._invalidateModel = !0,
-        this._invalidateDisplay = !0,
+      this._invalidateModel = true,
+        this._invalidateDisplay = true,
         this._invalidateDatas = null,
         this.invalidate();
     },
@@ -412,7 +412,7 @@ controls.ListBase = function(a) {
       if (this._invalidateDisplay) {
         return;
       }
-      this._invalidateDisplay = !0,
+      this._invalidateDisplay = true,
         this._invalidateDatas = null,
         this.invalidate();
     },
@@ -449,24 +449,24 @@ controls.ListBase = function(a) {
       for (var j = this._startRowIndex; j < this._endRowIndex; j++) {
         var k = this._rowDatas.get(j);
         c = k.getId();
-        var l = this._renderMap[c];
-        if (!l) {
-          l = this.__divPool.get();
-          var m = l.style;
-          m.position = 'absolute',
-            m.whiteSpace = 'nowrap',
-            m.lineHeight = h,
-            m.top = j * this._rowHeight + 'px',
-            m.borderStyle = 'solid',
-            m.borderWidth = '0px',
-            m.borderBottomWidth = i,
-            m.borderBottomColor = this._rowLineColor,
-            m.opacity = k.getStyle ? k.getStyle('whole.alpha') : 1,
-            this._dataDiv.appendChild(l),
-            this._renderMap[c] = l;
+        var _div = this._renderMap[c];
+        if (!_div) {
+          _div = this.__divPool.get();
+          var sty = _div.style;
+          sty.position = 'absolute',
+            sty.whiteSpace = 'nowrap',
+            sty.lineHeight = h,
+            sty.top = j * this._rowHeight + 'px',
+            sty.borderStyle = 'solid',
+            sty.borderWidth = '0px',
+            sty.borderBottomWidth = i,
+            sty.borderBottomColor = this._rowLineColor,
+            sty.opacity = k.getStyle ? k.getStyle('whole.alpha') : 1,
+            this._dataDiv.appendChild(_div),
+            this._renderMap[c] = _div;
           var n = this.isSelected(k);
-          this.renderData(l, k, j, n),
-            this.onDataRendered(l, k, j, n);
+          this.renderData(_div, k, j, n),
+            this.onDataRendered(_div, k, j, n);
         }
       }
       _third.keys(this._renderMap).forEach(function(a) {
@@ -500,7 +500,7 @@ controls.ListBase = function(a) {
     this.onDataRendered = function(a, b, c, d) {},
     this._addCheckBox = function(a, b, c) {
       var d = this.__checkBoxPool.get();
-      return d.keepDefault = !0,
+      return d.keepDefault = true,
         d.type = 'checkbox',
         d.style.margin = '0px 2px',
         d.style.verticalAlign = 'middle',
@@ -527,7 +527,7 @@ controls.ListBase = function(a) {
         m.clearRect(0, 0, k, l),
           m.drawImage(f.getImage(g), 0, 0, k, l),
           h && (m.lineWidth = 2, m.strokeStyle = h, m.beginPath(), m.rect(0, 0, k, l), m.closePath(), m.stroke()),
-          i && (m.fillStyle = createRadialGradient(m, i, 'white', 1, l - 9, 8, 8, .75, .25), m.beginPath(), m.arc(5, l - 5, 4, 0, Math.PI * 2, !0), m.closePath(), m.fill());
+          i && (m.fillStyle = createRadialGradient(m, i, 'white', 1, l - 9, 8, 8, .75, .25), m.beginPath(), m.arc(5, l - 5, 4, 0, Math.PI * 2, true), m.closePath(), m.fill());
       } else {
         j = this.__imagePool.get(),
           j.style.verticalAlign = 'middle',
@@ -538,7 +538,7 @@ controls.ListBase = function(a) {
         _dom.appendChild(j);
     },
     this.isVisible = function(a) {
-      return this._box.contains(a) ? this._visibleFunction ? this._visibleFunction(a) : !0 : !1;
+      return this._box.contains(a) ? this._visibleFunction ? this._visibleFunction(a) : true : !1;
     },
     this.handleDataBoxChange = function(a) {
       this.invalidateModel();
@@ -833,7 +833,7 @@ controls.TableBase = function(a) {
     },
     this.cancelEditing = function() {
       if (this._currentEditor) {
-        this._isCanceling = !0;
+        this._isCanceling = true;
         var a = this._currentEditor;
         delete this._currentEditor,
           this._rootDiv.removeChild(a),
@@ -867,7 +867,7 @@ controls.TableBase = function(a) {
                 }
                 b.commitEditValue(a.target._editInfo, a.target);
               }, !1),
-            this._currentEditor.keepDefault = !0,
+            this._currentEditor.keepDefault = true,
             this._currentEditor._editInfo = d;
           var e = this._currentEditor.style;
           e.position = 'absolute',
@@ -921,7 +921,7 @@ controls.List = function(a) {
         this.firePropertyChange('checkMode', b, a);
     },
     this.isCheckable = function(a) {
-      return this._checkMode === !0;
+      return this._checkMode === true;
     },
     this.renderData = function(a, b, c, e) {
       var f;

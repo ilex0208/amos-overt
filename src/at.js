@@ -21,8 +21,9 @@ let _util = require('./_util');
 let find = require('./_extends');
 let _tobj = require('./_tobj');
 let Constants = require('./constants/index');
-let _t = require('./_tree');
 const third = require('./_third');
+let _tree = require('./_tree');
+let _treePane = require('./_treePane');
 
 
 Stage.prototype.find = find,
@@ -137,6 +138,7 @@ module.exports = {
   Tobj:_tobj,
   createStageFromJson: createStageFromJson,
   Constants: Constants,
-  Tree: _t,
+  Tree: _tree,
+  TreePane: _treePane,
   third: third
 };
