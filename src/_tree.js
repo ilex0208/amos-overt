@@ -19,6 +19,9 @@ const _indent = Bd.TREE_INDENT, // 16
   _expandIcon = Bd.TREE_EXPAND_ICON, // expand_icon
   _collapseIcon = Bd.TREE_COLLAPSE_ICON;// collapse_icon
 
+// 缺省宽和高
+const _clientWidth = 200;
+const _clientHeight = 550;
 const innerSpace = 5;
 /**
  * root 节点Icon
@@ -78,6 +81,9 @@ function _InvokeTreePane(treePane, _scene, treeName) {
     });
   };
   this.initTreeView = function(parent, positions = {}) {
+    this.rootView = parent;
+    let _w = parent.clientWidth || _clientWidth,
+      _h = parent.clientHeight || _clientHeight;
     let {top, right, bottom, left} = positions;
     this.treePane.style.position = 'absolute';
     //	e.style.position = 'relative';
@@ -85,9 +91,13 @@ function _InvokeTreePane(treePane, _scene, treeName) {
     top != null && (this.treePane.style.top = top + 'px');
     right != null && (this.treePane.style.right = right + 'px');
     bottom != null && (this.treePane.style.bottom = bottom + 'px');
-    this.treePane.style.width = parent.clientWidth - innerSpace + 'px';
-    this.treePane.style.height = parent.clientHeight - innerSpace + 'px';
+    this.treePane.style.width = _w - innerSpace + 'px';
+    this.treePane.style.height = _h - innerSpace + 'px';
     parent.appendChild(this.treePane);
+  };
+  this.updateTreeView = function(_scene){
+    this.treeDatas = buildTreeData(_scene);
+    this.paintTree();
   };
   this.paintTree();
 }
@@ -118,40 +128,49 @@ function _boolImg(){
  */
 function buildTreeData(scene, treeName) {
   let result = [];
-  let rootData = {
-    name: 'Root' || treeName,
-    icon: rootIcon(),
-    level: 0,
-    eleId: scene.getId(),
-    elementType: 'root'
-  };
-  result.push(rootData);
-  scene.childs && (
-    scene.childs.forEach(
-      (item, index) => {
-        item instanceof Container && (
-          result.push({
-            name: item.text || '   ',
-            icon: item.icon || defaultIcon(),
-            level: 1,
-            eleId: item.getId(),
-            elementType: item.elementType,
-            alarmColor: item.alarmColor
-          })
-        );
-        item instanceof Node && (
-          result.push({
-            name: item.text || 'Node',
-            icon: item.icon || defaultIcon(),
-            level: 2,
-            eleId: item.getId(),
-            elementType: item.elementType,
-            alarmColor: item.alarmColor
-          })
-        );
-      }
-    )
-  );
+  if(scene){
+    let rootData = treeName ? {
+      name: treeName || 'Root',
+      icon: rootIcon(),
+      level: 0,
+      eleId: scene.getId(),
+      elementType: 'root'
+    }
+    :
+    {
+      icon: rootIcon(),
+      level: 0,
+      eleId: scene.getId(),
+      elementType: 'root'
+    };
+    result.push(rootData);
+    scene.childs && (
+      scene.childs.forEach(
+        (item, index) => {
+          item instanceof Container && (
+            result.push({
+              name: item.text || '   ',
+              icon: item.icon || defaultIcon(),
+              level: 1,
+              eleId: item.getId(),
+              elementType: item.elementType,
+              alarmColor: item.alarmColor
+            })
+          );
+          item instanceof Node && (
+            result.push({
+              name: item.text || 'Node',
+              icon: item.icon || defaultIcon(),
+              level: 2,
+              eleId: item.getId(),
+              elementType: item.elementType,
+              alarmColor: item.alarmColor
+            })
+          );
+        }
+      )
+    );
+  }
   return result;
 }
 
@@ -223,7 +242,7 @@ let basicInteraction = function(itemView) {
   false);
 
   this.handleMouseDown = function(a) {
-    console.log('点击了',a.target);
+    // console.log('点击了',a.target);
   },
   this.handleKeyDown = function(a) {
     var b = this.treeItem;
@@ -362,6 +381,6 @@ const isCtrlDown = (ev) => ev.ctrlKey || ev.metaKey;
 const isShiftDown = (ev) => ev.shiftKey;
 const isAltDown = (ev) => ev.altKey;
 
-const Tree = _InvokeTreePane;
+const AmostTree = _InvokeTreePane;
 
-module.exports = Tree;
+module.exports = AmostTree;

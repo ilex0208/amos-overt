@@ -138,7 +138,7 @@ module.exports = {
   Tobj:_tobj,
   createStageFromJson: createStageFromJson,
   Constants: Constants,
-  Tree: _tree,
+  AmostTree: _tree,
   TreePane: _treePane,
   third: third
 };
